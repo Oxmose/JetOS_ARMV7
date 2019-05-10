@@ -5,7 +5,10 @@
 /examples/*/*/build
 /examples/*/sizes.c
 /examples/*/*/deployment.c
+/Debug
 *.o
+*.obj
+*.d
 *.lo
 *.bin
 *.elf
