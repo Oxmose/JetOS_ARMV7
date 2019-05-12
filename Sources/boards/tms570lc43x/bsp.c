@@ -7,6 +7,8 @@
 
 #include <bsp/serial.h>
 #include <bsp/bsp.h>
+#include <bsp/vim.h>
+#include <bsp/rti.h>
 
 static void init_periph(void)
 {
@@ -222,14 +224,66 @@ static void init_pins(void)
                         | (uint32)((uint32)(8U - 1U) & 0xFFFFU);
 }
 
+static void init_lpo(void)
+{
+    uint32 u32clocktestConfig;
+    /* Save user clocktest register configuration */
+    u32clocktestConfig = systemREG1->CLKTEST;
+/* USER CODE BEGIN (4) */
+/* USER CODE END */
+    /*The TRM states OTP TRIM value should be stepped to avoid large changes in the HF LPO clock that would result in a LPOCLKMON fault. At issue is the TRM does not specify what the maximum step is so there is no metric to use for the SW implementation - the routine can temporarily disable the LPOCLKMON range check so the sudden change will not cause a fault.*/
+    /* Disable clock range detection*/
+
+    systemREG1->CLKTEST = (systemREG1->CLKTEST
+                        | (uint32)((uint32)0x1U << 24U))
+                        & (uint32)(~((uint32)0x1U << 25U));
+    /*SAFETYMCUSW 139 S MR:13.7 <APPROVED> "Hardware status bit read check" */
+    if(LPO_TRIM_VALUE != 0xFFFFU)
+    {
+
+        systemREG1->LPOMONCTL  = (uint32)((uint32)1U << 24U)
+                               | (uint32)((uint32)LPO_TRIM_VALUE);
+    }
+    else
+    {
+
+        systemREG1->LPOMONCTL   = (uint32)((uint32)1U << 24U)
+                                     | (uint32)((uint32)16U << 8U)
+                                     | (uint32)((uint32)16U);
+
+    }
+
+    /* Restore the user clocktest register value configuration */
+    systemREG1->CLKTEST = u32clocktestConfig;
+
+/* USER CODE BEGIN (5) */
+/* USER CODE END */
+
+}
+
 void ja_bsp_init(void)
 {
     init_pll();
     init_periph();
+    init_lpo();
     init_flash();
     init_clock();
     init_pins();
     init_serial();
-
     serial_write("BSP Initialized\r\n", 17);
+
+    init_vim();
+    serial_write("VIM Initialized\r\n", 17);
+
+    init_rti();
+    serial_write("RTI Initialized\r\n", 17);
+
+    /* TODO Port from JetOS */
+    //jet_console_init_all();
+    serial_write("Console Initialized\r\n", 21);
+
+    /* TODO Port from JetOS */
+    //init_timers();
+    serial_write("Timers Initialized\r\n", 20);
+
 }

@@ -314,6 +314,12 @@ enum systemClockSource
     SYS_PLL2_ODCLK_16   = 0xFU   /**< Alias for PLL2_post_ODCLK/8                      */
 };
 
+#define SYS_DOZE_MODE        0x000F3F02U
+#define SYS_SNOOZE_MODE      0x000F3F03U
+#define SYS_SLEEP_MODE       0x000FFFFFU
+#define LPO_TRIM_VALUE       (((*(volatile uint32 *)0xF00801B4U) & 0xFFFF0000U)>>16U)
+#define SYS_EXCEPTION        (*(volatile uint32 *)0xFFFFFFE4U)
+
 void ja_bsp_init(void);
 
 #endif /* SOURCES_BOARDS_TMS570LC43X_INCLUDE_BSP_BSP_H_ */

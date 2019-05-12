@@ -6,9 +6,9 @@
 	.arm
 
 ; Kernel entry point
-	.def    _kernel_entry
+	.def    _c_int00
 	.asmfunc
-_kernel_entry:
+_c_int00:
 	bl _init_cpu_arch
 	bl _cpu_reg_init
 	bl pok_arch_init
@@ -19,6 +19,11 @@ _kernel_entry:
 	.def    _idle_loop
 	.asmfunc
 _idle_loop:
+	WFI
+    nop
+    nop
+    nop
+    nop
     b _idle_loop
 
     .endasmfunc
@@ -112,6 +117,10 @@ _cpu_reg_init:
 
 _init_cpu_arch:
 
+	; Enable VIC
+	mrc   p15, #0, r0, c1, c0,  #0
+    orr   r0,  r0, #0x01000000
+    mcr   p15, #0, r0, c1, c0,  #0
 
 	bx lr
 
