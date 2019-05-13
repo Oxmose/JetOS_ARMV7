@@ -1,291 +1,275 @@
 /*
- * bsp.h
+ * Polytechnique Montreal
+ * Copyright (C) 2019 Alexy Torres Aurora Dugo
  *
- *  Created on: 10 mai 2019
- *      Author: Alexy
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, Version 3.
+ *
+ * This program is distributed in the hope # that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * See the GNU General Public License version 3 for more details.
+ *
+ * This file also incorporates work covered by CHPOK License
+ * Institute for System Programming of the Russian Academy of Sciences
+ * Copyright (C) 2016 ISPRAS
+ *
+ * This file also incorporates work covered by POK License.
+ * Copyright (C) 2007-2009 POK team
  */
 
-#ifndef SOURCES_BOARDS_TMS570LC43X_INCLUDE_BSP_BSP_H_
-#define SOURCES_BOARDS_TMS570LC43X_INCLUDE_BSP_BSP_H_
+#ifndef __BSP_H__
+#define __BSP_H__
 
-typedef unsigned int uint32;
+typedef unsigned int uint32_t;
 
-/** @typedef systemBASE1_t
-*   @brief System Register Frame 1 Type Definition
-*
-*   This type is used to access the System 1 Registers.
-*/
-typedef volatile struct systemBase1
+/**
+ * @brief System register type 1.
+ * @details System register type 1 structure as defined by documentation.
+ */
+typedef struct sys_reg_type1
 {
-    uint32 SYSPC1;                 /* 0x0000 */
-    uint32 SYSPC2;                 /* 0x0004 */
-    uint32 SYSPC3;                 /* 0x0008 */
-    uint32 SYSPC4;                 /* 0x000C */
-    uint32 SYSPC5;                 /* 0x0010 */
-    uint32 SYSPC6;                 /* 0x0014 */
-    uint32 SYSPC7;                 /* 0x0018 */
-    uint32 SYSPC8;                 /* 0x001C */
-    uint32 SYSPC9;                 /* 0x0020 */
-    uint32 rsvd1;                  /* 0x0024 */
-    uint32 rsvd2;                  /* 0x0028 */
-    uint32 rsvd3;                  /* 0x002C */
-    uint32 CSDIS;                  /* 0x0030 */
-    uint32 CSDISSET;               /* 0x0034 */
-    uint32 CSDISCLR;               /* 0x0038 */
-    uint32 CDDIS;                  /* 0x003C */
-    uint32 CDDISSET;               /* 0x0040 */
-    uint32 CDDISCLR;               /* 0x0044 */
-    uint32 GHVSRC;                 /* 0x0048 */
-    uint32 VCLKASRC;               /* 0x004C */
-    uint32 RCLKSRC;                /* 0x0050 */
-    uint32 CSVSTAT;                /* 0x0054 */
-    uint32 MSTGCR;                 /* 0x0058 */
-    uint32 MINITGCR;               /* 0x005C */
-    uint32 MSINENA;                /* 0x0060 */
-    uint32 MSTFAIL;                /* 0x0064 */
-    uint32 MSTCGSTAT;              /* 0x0068 */
-    uint32 MINISTAT;               /* 0x006C */
-    uint32 PLLCTL1;                /* 0x0070 */
-    uint32 PLLCTL2;                /* 0x0074 */
-    uint32 SYSPC10;                /* 0x0078 */
-    uint32 DIEIDL;                 /* 0x007C */
-    uint32 DIEIDH;                 /* 0x0080 */
-    uint32 rsvd4;                  /* 0x0084 */
-    uint32 LPOMONCTL;              /* 0x0088 */
-    uint32 CLKTEST;                /* 0x008C */
-    uint32 DFTCTRLREG1;            /* 0x0090 */
-    uint32 DFTCTRLREG2;            /* 0x0094 */
-    uint32 rsvd5;                  /* 0x0098 */
-    uint32 rsvd6;                  /* 0x009C */
-    uint32 GPREG1;                 /* 0x00A0 */
-    uint32 rsvd7;                  /* 0x00A4 */
-    uint32 rsvd8;                  /* 0x00A8 */
-    uint32 rsvd9;                  /* 0x00AC */
-    uint32 SSIR1;                  /* 0x00B0 */
-    uint32 SSIR2;                  /* 0x00B4 */
-    uint32 SSIR3;                  /* 0x00B8 */
-    uint32 SSIR4;                  /* 0x00BC */
-    uint32 RAMGCR;                 /* 0x00C0 */
-    uint32 BMMCR1;                 /* 0x00C4 */
-    uint32 rsvd10;                 /* 0x00C8 */
-    uint32 CPURSTCR;               /* 0x00CC */
-    uint32 CLKCNTL;                /* 0x00D0 */
-    uint32 ECPCNTL;                /* 0x00D4 */
-    uint32 rsvd11;                 /* 0x00D8 */
-    uint32 DEVCR1;                 /* 0x00DC */
-    uint32 SYSECR;                 /* 0x00E0 */
-    uint32 SYSESR;                 /* 0x00E4 */
-    uint32 SYSTASR;                /* 0x00E8 */
-    uint32 GBLSTAT;                /* 0x00EC */
-    uint32 DEVID;                  /* 0x00F0 */
-    uint32 SSIVEC;                 /* 0x00F4 */
-    uint32 SSIF;                   /* 0x00F8 */
-} systemBASE1_t;
+    uint32_t SYSPC1;
+    uint32_t SYSPC2;
+    uint32_t SYSPC3;
+    uint32_t SYSPC4;
+    uint32_t SYSPC5;
+    uint32_t SYSPC6;
+    uint32_t SYSPC7;
+    uint32_t SYSPC8;
+    uint32_t SYSPC9;
+    uint32_t rsvd1;
+    uint32_t rsvd2;
+    uint32_t rsvd3;
+    uint32_t CSDIS;
+    uint32_t CSDISSET;
+    uint32_t CSDISCLR;
+    uint32_t CDDIS;
+    uint32_t CDDISSET;
+    uint32_t CDDISCLR;
+    uint32_t GHVSRC;
+    uint32_t VCLKASRC;
+    uint32_t RCLKSRC;
+    uint32_t CSVSTAT;
+    uint32_t MSTGCR;
+    uint32_t MINITGCR;
+    uint32_t MSINENA;
+    uint32_t MSTFAIL;
+    uint32_t MSTCGSTAT;
+    uint32_t MINISTAT;
+    uint32_t PLLCTL1;
+    uint32_t PLLCTL2;
+    uint32_t SYSPC10;
+    uint32_t DIEIDL;
+    uint32_t DIEIDH;
+    uint32_t rsvd4;
+    uint32_t LPOMONCTL;
+    uint32_t CLKTEST;
+    uint32_t DFTCTRLREG1;
+    uint32_t DFTCTRLREG2;
+    uint32_t rsvd5;
+    uint32_t rsvd6;
+    uint32_t GPREG1;
+    uint32_t rsvd7;
+    uint32_t rsvd8;
+    uint32_t rsvd9;
+    uint32_t SSIR1;
+    uint32_t SSIR2;
+    uint32_t SSIR3;
+    uint32_t SSIR4;
+    uint32_t RAMGCR;
+    uint32_t BMMCR1;
+    uint32_t rsvd10;
+    uint32_t CPURSTCR;
+    uint32_t CLKCNTL;
+    uint32_t ECPCNTL;
+    uint32_t rsvd11;
+    uint32_t DEVCR1;
+    uint32_t SYSECR;
+    uint32_t SYSESR;
+    uint32_t SYSTASR;
+    uint32_t GBLSTAT;
+    uint32_t DEVID;
+    uint32_t SSIVEC;
+    uint32_t SSIF;
+} sys_reg_type1_t;
 
-typedef volatile struct systemBase2
+/**
+ * @brief System register type 2.
+ * @details System register type 2 structure as defined by documentation.
+ */
+typedef struct sys_reg_type2
 {
-    uint32 PLLCTL3;        /* 0x0000 */
-    uint32 rsvd1;          /* 0x0004 */
-    uint32 STCCLKDIV;      /* 0x0008 */
-    uint32 rsvd2[6U];      /* 0x000C */
-    uint32 ECPCNTL;        /* 0x0024 */
-    uint32 ECPCNTL1;       /* 0x0028 */
-    uint32 rsvd3[4U];      /* 0x002C */
-    uint32 CLK2CNTRL;      /* 0x003C */
-    uint32 VCLKACON1;      /* 0x0040 */
-    uint32 rsvd4[4U];      /* 0x0044 */
-    uint32 HCLKCNTL;       /* 0x0054 */
-    uint32 rsvd5[6U];      /* 0x0058 */
-    uint32 CLKSLIP;        /* 0x0070 */
-    uint32 rsvd6;          /* 0x0074 */
-    uint32 IP1ECCERREN;    /* 0x0078 */
-    uint32 rsvd7[28U];     /* 0x007C */
-    uint32 EFC_CTLEN;      /* 0x00EC */
-    uint32 DIEIDL_REG0;    /* 0x00F0 */
-    uint32 DIEIDH_REG1;    /* 0x00F4 */
-    uint32 DIEIDL_REG2;    /* 0x00F8 */
-    uint32 DIEIDH_REG3;    /* 0x00FC */
-} systemBASE2_t;
+    uint32_t PLLCTL3;
+    uint32_t rsvd1;
+    uint32_t STCCLKDIV;
+    uint32_t rsvd2[6];
+    uint32_t ECPCNTL;
+    uint32_t ECPCNTL1;
+    uint32_t rsvd3[4];
+    uint32_t CLK2CNTRL;
+    uint32_t VCLKACON1;
+    uint32_t rsvd4[4];
+    uint32_t HCLKCNTL;
+    uint32_t rsvd5[6];
+    uint32_t CLKSLIP;
+    uint32_t rsvd6;
+    uint32_t IP1ECCERREN;
+    uint32_t rsvd7[28];
+    uint32_t EFC_CTLEN;
+    uint32_t DIEIDL_REG0;
+    uint32_t DIEIDH_REG1;
+    uint32_t DIEIDL_REG2;
+    uint32_t DIEIDH_REG3;
+} sys_reg_type2_t;
 
-/** @def systemREG1
-*   @brief System Register Frame 1 Pointer
-*
-*   This pointer is used by the system driver to access the system frame 1 registers.
-*/
-#define systemREG1 ((systemBASE1_t *)0xFFFFFF00U)
-/** @def systemREG2
-*   @brief System Register Frame 2 Pointer
-*
-*   This pointer is used by the system driver to access the system frame 2 registers.
-*/
-#define systemREG2 ((systemBASE2_t *)0xFFFFE100U)
+#define SYS_REG_1_BASE ((sys_reg_type1_t *)0xFFFFFF00)
+#define SYS_REG_2_BASE ((sys_reg_type2_t *)0xFFFFE100)
 
-typedef volatile struct pcrBase
+/**
+ * @brief PCR register structure as per defined by the documentation.
+ */
+typedef struct pcr_reg
 {
-    uint32 PMPROTSET0;    /* 0x0000 */
-    uint32 PMPROTSET1;    /* 0x0004 */
-    uint32 rsvd1[2U];     /* 0x0008 */
-    uint32 PMPROTCLR0;    /* 0x0010 */
-    uint32 PMPROTCLR1;    /* 0x0014 */
-    uint32 rsvd2[2U];     /* 0x0018 */
-    uint32 PPROTSET0;     /* 0x0020 */
-    uint32 PPROTSET1;     /* 0x0024 */
-    uint32 PPROTSET2;     /* 0x0028 */
-    uint32 PPROTSET3;     /* 0x002C */
-    uint32 rsvd3[4U];     /* 0x0030 */
-    uint32 PPROTCLR0;     /* 0x0040 */
-    uint32 PPROTCLR1;     /* 0x0044 */
-    uint32 PPROTCLR2;     /* 0x0048 */
-    uint32 PPROTCLR3;     /* 0x004C */
-    uint32 rsvd4[4U];     /* 0x0050 */
-    uint32 PCSPWRDWNSET0; /* 0x0060 */
-    uint32 PCSPWRDWNSET1; /* 0x0064 */
-    uint32 rsvd5[2U];     /* 0x0068 */
-    uint32 PCSPWRDWNCLR0; /* 0x0070 */
-    uint32 PCSPWRDWNCLR1; /* 0x0074 */
-    uint32 rsvd6[2U];     /* 0x0078 */
-    uint32 PSPWRDWNSET0;  /* 0x0080 */
-    uint32 PSPWRDWNSET1;  /* 0x0084 */
-    uint32 PSPWRDWNSET2;  /* 0x0088 */
-    uint32 PSPWRDWNSET3;  /* 0x008C */
-    uint32 rsvd7[4U];     /* 0x0090 */
-    uint32 PSPWRDWNCLR0;  /* 0x00A0 */
-    uint32 PSPWRDWNCLR1;  /* 0x00A4 */
-    uint32 PSPWRDWNCLR2;  /* 0x00A8 */
-    uint32 PSPWRDWNCLR3;  /* 0x00AC */
-    uint32 rsvd8[4U];     /* 0x00B0 */
-    uint32 PDPWRDWNSET;   /* 0x00C0 */
-    uint32 PDPWRDWNCLR;   /* 0x00C4 */
-    uint32 rsvd9[78U];    /* 0x00C8 */
-    uint32 MSTIDWRENA;    /* 0x0200 */
-    uint32 MSTIDENA;      /* 0x0204 */
-    uint32 MSTIDDIAGCTRL; /* 0x0208 */
-    uint32 rsvd10[61U];   /* 0x020C */
+    uint32_t PMPROTSET0;
+    uint32_t PMPROTSET1;
+    uint32_t rsvd1[2];
+    uint32_t PMPROTCLR0;
+    uint32_t PMPROTCLR1;
+    uint32_t rsvd2[2];
+    uint32_t PPROTSET0;
+    uint32_t PPROTSET1;
+    uint32_t PPROTSET2;
+    uint32_t PPROTSET3;
+    uint32_t rsvd3[4];
+    uint32_t PPROTCLR0;
+    uint32_t PPROTCLR1;
+    uint32_t PPROTCLR2;
+    uint32_t PPROTCLR3;
+    uint32_t rsvd4[4];
+    uint32_t PCSPWRDWNSET0;
+    uint32_t PCSPWRDWNSET1;
+    uint32_t rsvd5[2];
+    uint32_t PCSPWRDWNCLR0;
+    uint32_t PCSPWRDWNCLR1;
+    uint32_t rsvd6[2];
+    uint32_t PSPWRDWNSET0;
+    uint32_t PSPWRDWNSET1;
+    uint32_t PSPWRDWNSET2;
+    uint32_t PSPWRDWNSET3;
+    uint32_t rsvd7[4];
+    uint32_t PSPWRDWNCLR0;
+    uint32_t PSPWRDWNCLR1;
+    uint32_t PSPWRDWNCLR2;
+    uint32_t PSPWRDWNCLR3;
+    uint32_t rsvd8[4];
+    uint32_t PDPWRDWNSET;
+    uint32_t PDPWRDWNCLR;
+    uint32_t rsvd9[78];
+    uint32_t MSTIDWRENA;
+    uint32_t MSTIDENA;
+    uint32_t MSTIDDIAGCTRL;
+    uint32_t rsvd10[61];
     struct
     {
-        uint32 PSxMSTID_L;
-        uint32 PSxMSTID_H;
-    }PSxMSTID[32];            /* 0x0300 */
+        uint32_t PSxMSTID_L;
+        uint32_t PSxMSTID_H;
+    }PSxMSTID[32];
     struct
     {
-        uint32 PPSxMSTID_L;
-        uint32 PPSxMSTID_H;
-    }PPSxMSTID[8];            /* 0x0400 */
+        uint32_t PPSxMSTID_L;
+        uint32_t PPSxMSTID_H;
+    }PPSxMSTID[8];
     struct
     {
-        uint32 PPSExMSTID_L;
-        uint32 PPSExMSTID_H;
-    }PPSExMSTID[32];            /* 0x0440 */
-    uint32 PCSxMSTID[32];    /* 0x0540 */
-    uint32 PPCSxMSTID[8];    /* 0x05C0 */
-} pcrBASE_t;
+        uint32_t PPSExMSTID_L;
+        uint32_t PPSExMSTID_H;
+    }PPSExMSTID[32];
+    uint32_t PCSxMSTID[32];
+    uint32_t PPCSxMSTID[8];
+} pcr_reg_t;
 
-/** @def pcrREG1
-*   @brief Pcr1 Register Frame Pointer
-*
-*   This pointer is used by the system driver to access the Pcr1 registers.
-*/
-#define pcrREG1 ((pcrBASE_t *)0xFFFF1000U)
 
-/** @def pcrREG2
-*   @brief Pcr2 Register Frame Pointer
-*
-*   This pointer is used by the system driver to access the Pcr2 registers.
-*/
-#define pcrREG2 ((pcrBASE_t *)0xFCFF1000U)
+#define PCR_REG_1 ((pcr_reg_t *)0xFFFF1000)
+#define PCR_REG_2 ((pcr_reg_t *)0xFCFF1000)
+#define PCR_REG_3 ((pcr_reg_t *)0xFFF78000)
 
-/** @def pcrREG3
-*   @brief Pcr3 Register Frame Pointer
-*
-*   This pointer is used by the system driver to access the Pcr3 registers.
-*/
-#define pcrREG3 ((pcrBASE_t *)0xFFF78000U)
-
-/** @typedef flashWBASE_t
-*   @brief Flash Wrapper Register Frame Type Definition
-*
-*   This type is used to access the Flash Wrapper Registers.
-*/
-typedef volatile struct flashWBase
+/**
+ * @brief Flash register structure as per defined by the documentation.
+ */
+typedef struct flash_reg
 {
-    uint32 FRDCNTL;         /* 0x0000 */
-    uint32 rsvd1;           /* 0x0004 */
-    uint32 EE_FEDACCTRL1;   /* 0x0008 */
-    uint32 rsvd2;           /* 0x000C */
-    uint32 rsvd3;           /* 0x0010 */
-    uint32 FEDAC_PASTATUS;  /* 0x0014 */
-    uint32 FEDAC_PBSTATUS;  /* 0x0018 */
-    uint32 FEDAC_GBLSTATUS; /* 0x001C */
-    uint32 rsvd4;           /* 0x0020 */
-    uint32 FEDACSDIS;       /* 0x0024 */
-    uint32 FPRIM_ADD_TAG;   /* 0x0028 */
-    uint32 FDUP_ADD_TAG;    /* 0x002C */
-    uint32 FBPROT;          /* 0x0030 */
-    uint32 FBSE;            /* 0x0034 */
-    uint32 FBBUSY;          /* 0x0038 */
-    uint32 FBAC;            /* 0x003C */
-    uint32 FBPWRMODE;       /* 0x0040 */
-    uint32 FBPRDY;          /* 0x0044 */
-    uint32 FPAC1;           /* 0x0048 */
-    uint32 rsvd5;           /* 0x004C */
-    uint32 FMAC;            /* 0x0050 */
-    uint32 FMSTAT;          /* 0x0054 */
-    uint32 FEMU_DMSW;       /* 0x0058 */
-    uint32 FEMU_DLSW;       /* 0x005C */
-    uint32 FEMU_ECC;        /* 0x0060 */
-    uint32 FLOCK;           /* 0x0064 */
-    uint32 rsvd6;           /* 0x0068 */
-    uint32 FDIAGCTRL;       /* 0x006C */
-    uint32 rsvd7;           /* 0x0070 */
-    uint32 FRAW_ADDR;       /* 0x0074 */
-    uint32 rsvd8;           /* 0x0078 */
-    uint32 FPAR_OVR;        /* 0x007C */
-    uint32 rsvd9[13U];      /* 0x0080 - 0x00B0 */
-    uint32 RCR_VALID;       /* 0x00B4 */
-    uint32 ACC_THRESHOLD;   /* 0x00B8 */
-    uint32 rsvd10;          /* 0x00BC */
-    uint32 FEDACSDIS2;      /* 0x00C0 */
-    uint32 rsvd11;          /* 0x00C4 */
-    uint32 rsvd12;          /* 0x00C8 */
-    uint32 rsvd13;          /* 0x00CC */
-    uint32 RCR_VALUE0;      /* 0x00D0 */
-    uint32 RCR_VALUE1;      /* 0x00D4 */
-    uint32 rsvd14[108U];    /* 0x00D8 - 0x00284 */
-    uint32 FSM_WR_ENA;      /* 0x0288 */
-    uint32 rsvd15[11U];     /* 0x028C - 0x002B4 */
-    uint32 EEPROM_CONFIG;   /* 0x02B8 */
-    uint32 rsvd16;          /* 0x02BC */
-    uint32 FSM_SECTOR1;     /* 0x02C0 */
-    uint32 FSM_SECTOR2;     /* 0x02C4 */
-    uint32 rsvd17[78U];     /* 0x02A8 */
-    uint32 FCFG_BANK;       /* 0x02B8 */
+    uint32_t FRDCNTL;
+    uint32_t rsvd1;
+    uint32_t EE_FEDACCTRL1;
+    uint32_t rsvd2;
+    uint32_t rsvd3;
+    uint32_t FEDAC_PASTATUS;
+    uint32_t FEDAC_PBSTATUS;
+    uint32_t FEDAC_GBLSTATUS;
+    uint32_t rsvd4;
+    uint32_t FEDACSDIS;
+    uint32_t FPRIM_ADD_TAG;
+    uint32_t FDUP_ADD_TAG;
+    uint32_t FBPROT;
+    uint32_t FBSE;
+    uint32_t FBBUSY;
+    uint32_t FBAC;
+    uint32_t FBPWRMODE;
+    uint32_t FBPRDY;
+    uint32_t FPAC1;
+    uint32_t rsvd5;
+    uint32_t FMAC;
+    uint32_t FMSTAT;
+    uint32_t FEMU_DMSW;
+    uint32_t FEMU_DLSW;
+    uint32_t FEMU_ECC;
+    uint32_t FLOCK;
+    uint32_t rsvd6;
+    uint32_t FDIAGCTRL;
+    uint32_t rsvd7;
+    uint32_t FRAW_ADDR;
+    uint32_t rsvd8;
+    uint32_t FPAR_OVR;
+    uint32_t rsvd9[13];
+    uint32_t RCR_VALID;
+    uint32_t ACC_THRESHOLD;
+    uint32_t rsvd10;
+    uint32_t FEDACSDIS2;
+    uint32_t rsvd11;
+    uint32_t rsvd12;
+    uint32_t rsvd13;
+    uint32_t RCR_VALUE0;
+    uint32_t RCR_VALUE1;
+    uint32_t rsvd14[108];
+    uint32_t FSM_WR_ENA;
+    uint32_t rsvd15[11];
+    uint32_t EEPROM_CONFIG;
+    uint32_t rsvd16;
+    uint32_t FSM_SECTOR1;
+    uint32_t FSM_SECTOR2;
+    uint32_t rsvd17[78];
+    uint32_t FCFG_BANK;
 
-} flashWBASE_t;
+} flash_reg_t;
 
-/** @def flashWREG
-*   @brief Flash Wrapper Register Frame Pointer
-*
-*   This pointer is used by the system driver to access the flash wrapper registers.
-*/
-#define flashWREG ((flashWBASE_t *)(0xFFF87000U))
 
-#define FSM_WR_ENA_HL       (*(volatile uint32 *)0xFFF87288U)
-#define EEPROM_CONFIG_HL    (*(volatile uint32 *)0xFFF872B8U)
+#define FLASH_REG ((flash_reg_t *)(0xFFF87000))
+#define FSM_WR_ENA_HL       (*(volatile uint32_t *)0xFFF87288)
+#define EEPROM_CONFIG_HL    (*(volatile uint32_t *)0xFFF872B8)
 
-/** @enum flashWPowerModes
-*   @brief Alias names for flash bank power modes
-*
-*   This enumeration is used to provide alias names for the flash bank power modes:
-*     - sleep
-*     - standby
-*     - active
-*/
-enum flashWPowerModes
+
+/**
+ * @brief Flash power modes.
+ */
+typedef enum FLASH_POWER_MODE
 {
     SYS_SLEEP   = 0U, /**< Alias for flash bank power mode sleep   */
     SYS_STANDBY = 1U, /**< Alias for flash bank power mode standby */
     SYS_ACTIVE  = 3U  /**< Alias for flash bank power mode active  */
-};
+}FLASH_POWER_MODE_E;
 
 /** @enum systemClockSource
 *   @brief Alias names for clock sources
@@ -317,9 +301,9 @@ enum systemClockSource
 #define SYS_DOZE_MODE        0x000F3F02U
 #define SYS_SNOOZE_MODE      0x000F3F03U
 #define SYS_SLEEP_MODE       0x000FFFFFU
-#define LPO_TRIM_VALUE       (((*(volatile uint32 *)0xF00801B4U) & 0xFFFF0000U)>>16U)
-#define SYS_EXCEPTION        (*(volatile uint32 *)0xFFFFFFE4U)
+#define LPO_TRIM_VALUE       (((*(volatile uint32_t *)0xF00801B4U) & 0xFFFF0000U)>>16U)
+#define SYS_EXCEPTION        (*(volatile uint32_t *)0xFFFFFFE4U)
 
 void ja_bsp_init(void);
 
-#endif /* SOURCES_BOARDS_TMS570LC43X_INCLUDE_BSP_BSP_H_ */
+#endif /* __BSP_H__ */

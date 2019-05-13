@@ -50,6 +50,8 @@
 #ifndef __RTI_H__
 #define __RTI_H__
 
+#define RTI_FREQUENCY 9375000
+
 typedef unsigned int uint32;
 
 typedef volatile struct rtiBase
@@ -343,7 +345,7 @@ uint32 rtiGetPeriod(rtiBASE_t *rtiREG,uint32 compare);
 uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG,uint32 compare);
 void rtiEnableNotification(rtiBASE_t *rtiREG,uint32 notification);
 void rtiDisableNotification(rtiBASE_t *rtiREG,uint32 notification);
-
+void ja_bsp_process_timer(void);
 
 /**@}*/
 #ifdef __cplusplus

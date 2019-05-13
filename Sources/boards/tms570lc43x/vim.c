@@ -6,6 +6,7 @@
  */
 
 #include "bsp/vim.h"
+#include <bsp/rti.h>
 
 extern void defaultint(void);
 
@@ -21,7 +22,7 @@ static const t_isrFuncPTR vim_table[128U] =
     &defaultint,
     &defaultint,          /* Channel 0   */
     &defaultint,          /* Channel 1   */
-    &defaultint,          /* Channel 2   */
+    &ja_bsp_process_timer,          /* Channel 2   */
     &defaultint,          /* Channel 3   */
     &defaultint,          /* Channel 4   */
     &defaultint,          /* Channel 5   */
@@ -308,7 +309,7 @@ void init_vim(void)
 
     /* set IRQ/FIQ priorities */
     vimREG->FIRQPR0 = (uint32)((uint32)SYS_FIQ << 0U)
-                    | (uint32)((uint32)SYS_IRQ << 1U)
+                    | (uint32)((uint32)SYS_FIQ << 1U)
                     | (uint32)((uint32)SYS_IRQ << 2U)
                     | (uint32)((uint32)SYS_IRQ << 3U)
                     | (uint32)((uint32)SYS_IRQ << 4U)
@@ -444,7 +445,7 @@ void init_vim(void)
     /* enable interrupts */
     vimREG->REQMASKSET0 = (uint32)((uint32)1U << 0U)
                         | (uint32)((uint32)1U << 1U)
-                        | (uint32)((uint32)0U << 2U)
+                        | (uint32)((uint32)1U << 2U)
                         | (uint32)((uint32)0U << 3U)
                         | (uint32)((uint32)0U << 4U)
                         | (uint32)((uint32)0U << 5U)

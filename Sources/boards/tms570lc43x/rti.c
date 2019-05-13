@@ -68,85 +68,79 @@
 */
 void init_rti(void)
 {
-/* USER CODE BEGIN (2) */
-/* USER CODE END */
-    /** @b Initialize @b RTI1: */
-
     /** - Setup NTU source, debug options and disable both counter blocks */
-    rtiREG1->GCTRL = (uint32)((uint32)0x5U << 16U) | 0x00000000U;
+        rtiREG1->GCTRL = (uint32)((uint32)0x5U << 16U) | 0x00000000U;
 
-    /** - Setup timebase for free running counter 0 */
-    rtiREG1->TBCTRL = 0x00000000U;
+        /** - Setup timebase for free running counter 0 */
+        rtiREG1->TBCTRL = 0x00000000U;
 
-    /** - Enable/Disable capture event sources for both counter blocks */
-    rtiREG1->CAPCTRL = 0U | 0U;
+        /** - Enable/Disable capture event sources for both counter blocks */
+        rtiREG1->CAPCTRL = 0U | 0U;
 
-    /** - Setup input source compare 0-3 */
-    rtiREG1->COMPCTRL = 0x00001000U | 0x00000100U | 0x00000000U | 0x00000000U;
+        /** - Setup input source compare 0-3 */
+        rtiREG1->COMPCTRL = 0x00001000U | 0x00000100U | 0x00000000U | 0x00000000U;
 
-    /** - Reset up counter 0 */
-    rtiREG1->CNT[0U].UCx = 0x00000000U;
+        /** - Reset up counter 0 */
+        rtiREG1->CNT[0U].UCx = 0x00000000U;
 
-    /** - Reset free running counter 0 */
-    rtiREG1->CNT[0U].FRCx = 0x00000000U;
+        /** - Reset free running counter 0 */
+        rtiREG1->CNT[0U].FRCx = 0x00000000U;
 
-    /** - Setup up counter 0 compare value 
-    *     - 0x00000000: Divide by 2^32
-    *     - 0x00000001-0xFFFFFFFF: Divide by (CPUC0 + 1)
-    */
-    rtiREG1->CNT[0U].CPUCx = 7U;
+        /** - Setup up counter 0 compare value
+        *     - 0x00000000: Divide by 2^32
+        *     - 0x00000001-0xFFFFFFFF: Divide by (CPUC0 + 1)
+        */
+        rtiREG1->CNT[0U].CPUCx = 7U;
 
-    /** - Reset up counter 1 */
-    rtiREG1->CNT[1U].UCx = 0x00000000U;
+        /** - Reset up counter 1 */
+        rtiREG1->CNT[1U].UCx = 0x00000000U;
 
-    /** - Reset free running counter 1 */
-    rtiREG1->CNT[1U].FRCx  = 0x00000000U;
+        /** - Reset free running counter 1 */
+        rtiREG1->CNT[1U].FRCx  = 0x00000000U;
 
-    /** - Setup up counter 1 compare value 
-    *     - 0x00000000: Divide by 2^32
-    *     - 0x00000001-0xFFFFFFFF: Divide by (CPUC1 + 1)
-    */
-    rtiREG1->CNT[1U].CPUCx = 7U;
+        /** - Setup up counter 1 compare value
+        *     - 0x00000000: Divide by 2^32
+        *     - 0x00000001-0xFFFFFFFF: Divide by (CPUC1 + 1)
+        */
+        rtiREG1->CNT[1U].CPUCx = 7U;
 
-    /** - Setup compare 0 value. This value is compared with selected free running counter. */
-    rtiREG1->CMP[0U].COMPx = 9375U;
+        /** - Setup compare 0 value. This value is compared with selected free running counter. */
+        rtiREG1->CMP[0U].COMPx = 938U;
 
-    /** - Setup update compare 0 value. This value is added to the compare 0 value on each compare match. */
-    rtiREG1->CMP[0U].UDCPx = 9375U;
+        /** - Setup update compare 0 value. This value is added to the compare 0 value on each compare match. */
+        rtiREG1->CMP[0U].UDCPx = 938U;
 
-    /** - Setup compare 1 value. This value is compared with selected free running counter. */
-    rtiREG1->CMP[1U].COMPx = 46875U;
+        /** - Setup compare 1 value. This value is compared with selected free running counter. */
+        rtiREG1->CMP[1U].COMPx = 46875U;
 
-    /** - Setup update compare 1 value. This value is added to the compare 1 value on each compare match. */
-    rtiREG1->CMP[1U].UDCPx = 46875U;
+        /** - Setup update compare 1 value. This value is added to the compare 1 value on each compare match. */
+        rtiREG1->CMP[1U].UDCPx = 46875U;
 
-    /** - Setup compare 2 value. This value is compared with selected free running counter. */
-    rtiREG1->CMP[2U].COMPx = 75000U;
+        /** - Setup compare 2 value. This value is compared with selected free running counter. */
+        rtiREG1->CMP[2U].COMPx = 75000U;
 
-    /** - Setup update compare 2 value. This value is added to the compare 2 value on each compare match. */
-    rtiREG1->CMP[2U].UDCPx = 75000U;
+        /** - Setup update compare 2 value. This value is added to the compare 2 value on each compare match. */
+        rtiREG1->CMP[2U].UDCPx = 75000U;
 
-    /** - Setup compare 3 value. This value is compared with selected free running counter. */
-    rtiREG1->CMP[3U].COMPx = 93750U;
+        /** - Setup compare 3 value. This value is compared with selected free running counter. */
+        rtiREG1->CMP[3U].COMPx = 93750U;
 
-    /** - Setup update compare 3 value. This value is added to the compare 3 value on each compare match. */
-    rtiREG1->CMP[3U].UDCPx = 93750U;
+        /** - Setup update compare 3 value. This value is added to the compare 3 value on each compare match. */
+        rtiREG1->CMP[3U].UDCPx = 93750U;
 
-    /** - Clear all pending interrupts */
-    rtiREG1->INTFLAG = 0x0007000FU;
+        /** - Clear all pending interrupts */
+        rtiREG1->INTFLAG = 0x0007000FU;
 
-    /** - Disable all interrupts */
-    rtiREG1->CLEARINTENA = 0x00070F0FU;
+        /** - Disable all interrupts */
+        rtiREG1->CLEARINTENA = 0x00070F0FU;
 
-    /**   @note This function has to be called before the driver can be used.\n
-    *           This function has to be executed in privileged mode.\n
-    *           This function does not start the counters.
-    */
+        /**   @note This function has to be called before the driver can be used.\n
+        *           This function has to be executed in privileged mode.\n
+        *           This function does not start the counters.
+        */
 
-    rtiREG1->INTFLAG   = rtiNOTIFICATION_TIMEBASE;
-    rtiREG1->SETINTENA = rtiNOTIFICATION_TIMEBASE;
-
-    rtiStartCounter(rtiREG1, rtiCOUNTER_BLOCK0);
+    rtiREG1->INTFLAG   = rtiNOTIFICATION_COMPARE0;
+    rtiREG1->SETINTENA = rtiNOTIFICATION_COMPARE0;
 }
 
 
@@ -349,4 +343,30 @@ uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32 compare)
 /* USER CODE END */
 
     return tick;
+}
+
+void rtiEnableNotification(rtiBASE_t *rtiREG, uint32 notification)
+{
+/* USER CODE BEGIN (38) */
+/* USER CODE END */
+
+    rtiREG->INTFLAG = notification;
+    rtiREG->SETINTENA   = notification;
+
+    /**   @note The function rtiInit has to be called before this function can be used.\n
+    *           This function has to be executed in privileged mode.
+    */
+
+/* USER CODE BEGIN (39) */
+/* USER CODE END */
+}
+
+#pragma CODE_STATE(ja_bsp_process_timer, 32)
+#pragma INTERRUPT(ja_bsp_process_timer, IRQ)
+
+void ja_bsp_process_timer(void)
+{
+   /* Set EOI */
+   rtiREG1->INTFLAG = 1U;
+
 }
