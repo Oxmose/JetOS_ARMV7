@@ -152,7 +152,7 @@ static const t_isrFuncPTR vim_table[128U] =
 /* SourceId : VIM_SourceId_002 */
 /* DesignId : VIM_DesignId_002 */
 /* Requirements : HL_CONQ_VIM_SR5 */
-/** @fn void vimChannelMap(uint32 request, uint32 channel, t_isrFuncPTR handler)
+/** @fn void vimChannelMap(uint32_t request, uint32_t channel, t_isrFuncPTR handler)
 *   @brief Map selected interrupt request to the selected channel
 *
 *    @param[in] request: Interrupt request number 2..95
@@ -162,9 +162,9 @@ static const t_isrFuncPTR vim_table[128U] =
 *   This function will map selected interrupt request to the selected channel.
 *
 */
-void vimChannelMap(uint32 request, uint32 channel, t_isrFuncPTR handler)
+void vimChannelMap(uint32_t request, uint32_t channel, t_isrFuncPTR handler)
 {
-    uint32 i,j;
+    uint32_t i,j;
 
     i = channel >> 2U;              /* Find the register to configure */
     j = channel -(i<<2U);           /* Find the offset of the type    */
@@ -172,7 +172,7 @@ void vimChannelMap(uint32 request, uint32 channel, t_isrFuncPTR handler)
     j = j<<3U;                      /* find the bit location          */
 
     /*Mapping the required interrupt request to the required channel*/
-    vimREG->CHANCTRL[i] &= ~(uint32)((uint32)0xFFU << j);
+    vimREG->CHANCTRL[i] &= ~(uint32_t)((uint32_t)0xFFU << j);
     vimREG->CHANCTRL[i] |= (request << j);
 
     /*Updating VIMRAM*/
@@ -182,7 +182,7 @@ void vimChannelMap(uint32 request, uint32 channel, t_isrFuncPTR handler)
 /* SourceId : VIM_SourceId_003 */
 /* DesignId : VIM_DesignId_003 */
 /* Requirements : HL_CONQ_VIM_SR3 */
-/** @fn void vimEnableInterrupt(uint32 channel, systemInterrupt_t inttype)
+/** @fn void vimEnableInterrupt(uint32_t channel, systemInterrupt_t inttype)
 *   @brief Enable interrupt for the the selected channel
 *
 *    @param[in] channel: VIM Channel number 2..95
@@ -193,56 +193,56 @@ void vimChannelMap(uint32 request, uint32 channel, t_isrFuncPTR handler)
 *   This function will enable interrupt for the selected channel.
 *
 */
-void vimEnableInterrupt(uint32 channel, systemInterrupt_t inttype)
+void vimEnableInterrupt(uint32_t channel, systemInterrupt_t inttype)
 {
 
     if (channel >= 96U)
     {
         if(inttype == SYS_IRQ)
         {
-            vimREG->FIRQPR3 &= ~(uint32)((uint32)1U << (channel-96U));
+            vimREG->FIRQPR3 &= ~(uint32_t)((uint32_t)1U << (channel-96U));
         }
         else
         {
-            vimREG->FIRQPR3 |= ((uint32)1U << (channel-96U));
+            vimREG->FIRQPR3 |= ((uint32_t)1U << (channel-96U));
         }
-        vimREG->REQMASKSET3 = (uint32)1U << (channel-96U);
+        vimREG->REQMASKSET3 = (uint32_t)1U << (channel-96U);
     }
     else if (channel >= 64U)
     {
         if(inttype == SYS_IRQ)
         {
-            vimREG->FIRQPR2 &= ~(uint32)((uint32)1U << (channel-64U));
+            vimREG->FIRQPR2 &= ~(uint32_t)((uint32_t)1U << (channel-64U));
         }
         else
         {
-            vimREG->FIRQPR2 |= ((uint32)1U << (channel-64U));
+            vimREG->FIRQPR2 |= ((uint32_t)1U << (channel-64U));
         }
-        vimREG->REQMASKSET2 = (uint32)1U << (channel-64U);
+        vimREG->REQMASKSET2 = (uint32_t)1U << (channel-64U);
     }
     else if (channel >= 32U)
     {
         if(inttype == SYS_IRQ)
         {
-            vimREG->FIRQPR1 &= ~(uint32)((uint32)1U << (channel-32U));
+            vimREG->FIRQPR1 &= ~(uint32_t)((uint32_t)1U << (channel-32U));
         }
         else
         {
-            vimREG->FIRQPR1 |= ((uint32)1U << (channel-32U));
+            vimREG->FIRQPR1 |= ((uint32_t)1U << (channel-32U));
         }
-        vimREG->REQMASKSET1 = (uint32)1U << (channel-32U);
+        vimREG->REQMASKSET1 = (uint32_t)1U << (channel-32U);
     }
     else if (channel >= 2U)
     {
         if(inttype == SYS_IRQ)
         {
-            vimREG->FIRQPR0 &= ~(uint32)((uint32)1U << channel);
+            vimREG->FIRQPR0 &= ~(uint32_t)((uint32_t)1U << channel);
         }
         else
         {
-            vimREG->FIRQPR0 |= ((uint32)1U << channel);
+            vimREG->FIRQPR0 |= ((uint32_t)1U << channel);
         }
-        vimREG->REQMASKSET0 = (uint32)1U << channel;
+        vimREG->REQMASKSET0 = (uint32_t)1U << channel;
     }
     else
     {
@@ -253,7 +253,7 @@ void vimEnableInterrupt(uint32 channel, systemInterrupt_t inttype)
 /* SourceId : VIM_SourceId_004 */
 /* DesignId : VIM_DesignId_004 */
 /* Requirements : HL_CONQ_VIM_SR5 */
-/** @fn void vimDisableInterrupt(uint32 channel)
+/** @fn void vimDisableInterrupt(uint32_t channel)
 *   @brief Disable interrupt for the the selected channel
 *
 *    @param[in] channel: VIM Channel number 2..95
@@ -261,24 +261,24 @@ void vimEnableInterrupt(uint32 channel, systemInterrupt_t inttype)
 *   This function will disable interrupt for the selected channel.
 *
 */
-void vimDisableInterrupt(uint32 channel)
+void vimDisableInterrupt(uint32_t channel)
 {
 
     if (channel >= 96U)
     {
-        vimREG->REQMASKCLR3 = (uint32)1U << (channel-96U);
+        vimREG->REQMASKCLR3 = (uint32_t)1U << (channel-96U);
     }
     else if (channel >= 64U)
     {
-        vimREG->REQMASKCLR2 = (uint32)1U << (channel-64U);
+        vimREG->REQMASKCLR2 = (uint32_t)1U << (channel-64U);
     }
     else if (channel >=32U)
     {
-        vimREG->REQMASKCLR1 = (uint32)1U << (channel-32U);
+        vimREG->REQMASKCLR1 = (uint32_t)1U << (channel-32U);
     }
     else if (channel >= 2U)
     {
-        vimREG->REQMASKCLR0 = (uint32)1U << channel;
+        vimREG->REQMASKCLR0 = (uint32_t)1U << channel;
     }
     else
     {
@@ -298,284 +298,284 @@ void init_vim(void)
 {
     /* Initialize VIM table */
     {
-        uint32 i;
+        uint32_t i;
 
         for (i = 0U; i < VIM_CHANNELS; i++)
         {
             vimRAM->ISR[i] = vim_table[i];
         }
     }
-    vimREG->FBVECADDR = (uint32)&vimECCErrorHandler;
+    vimREG->FBVECADDR = (uint32_t)&vimECCErrorHandler;
 
     /* set IRQ/FIQ priorities */
-    vimREG->FIRQPR0 = (uint32)((uint32)SYS_FIQ << 0U)
-                    | (uint32)((uint32)SYS_FIQ << 1U)
-                    | (uint32)((uint32)SYS_IRQ << 2U)
-                    | (uint32)((uint32)SYS_IRQ << 3U)
-                    | (uint32)((uint32)SYS_IRQ << 4U)
-                    | (uint32)((uint32)SYS_IRQ << 5U)
-                    | (uint32)((uint32)SYS_IRQ << 6U)
-                    | (uint32)((uint32)SYS_IRQ << 7U)
-                    | (uint32)((uint32)SYS_IRQ << 8U)
-                    | (uint32)((uint32)SYS_IRQ << 9U)
-                    | (uint32)((uint32)SYS_IRQ << 10U)
-                    | (uint32)((uint32)SYS_IRQ << 11U)
-                    | (uint32)((uint32)SYS_IRQ << 12U)
-                    | (uint32)((uint32)SYS_IRQ << 13U)
-                    | (uint32)((uint32)SYS_IRQ << 14U)
-                    | (uint32)((uint32)SYS_IRQ << 15U)
-                    | (uint32)((uint32)SYS_IRQ << 16U)
-                    | (uint32)((uint32)SYS_IRQ << 17U)
-                    | (uint32)((uint32)SYS_IRQ << 18U)
-                    | (uint32)((uint32)SYS_IRQ << 19U)
-                    | (uint32)((uint32)SYS_IRQ << 20U)
-                    | (uint32)((uint32)SYS_IRQ << 21U)
-                    | (uint32)((uint32)SYS_IRQ << 22U)
-                    | (uint32)((uint32)SYS_IRQ << 23U)
-                    | (uint32)((uint32)SYS_IRQ << 24U)
-                    | (uint32)((uint32)SYS_IRQ << 25U)
-                    | (uint32)((uint32)SYS_IRQ << 26U)
-                    | (uint32)((uint32)SYS_IRQ << 27U)
-                    | (uint32)((uint32)SYS_IRQ << 28U)
-                    | (uint32)((uint32)SYS_IRQ << 29U)
-                    | (uint32)((uint32)SYS_IRQ << 30U)
-                    | (uint32)((uint32)SYS_IRQ << 31U);
+    vimREG->FIRQPR0 = (uint32_t)((uint32_t)SYS_FIQ << 0U)
+                    | (uint32_t)((uint32_t)SYS_FIQ << 1U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 2U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 3U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 4U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 5U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 6U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 7U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 8U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 9U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 10U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 11U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 12U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 13U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 14U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 15U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 16U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 17U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 18U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 19U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 20U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 21U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 22U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 23U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 24U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 25U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 26U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 27U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 28U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 29U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 30U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 31U);
 
-    vimREG->FIRQPR1 = (uint32)((uint32)SYS_IRQ << 0U)
-                    | (uint32)((uint32)SYS_IRQ << 1U)
-                    | (uint32)((uint32)SYS_IRQ << 2U)
-                    | (uint32)((uint32)SYS_IRQ << 3U)
-                    | (uint32)((uint32)SYS_IRQ << 4U)
-                    | (uint32)((uint32)SYS_IRQ << 5U)
-                    | (uint32)((uint32)SYS_IRQ << 6U)
-                    | (uint32)((uint32)SYS_IRQ << 7U)
-                    | (uint32)((uint32)SYS_IRQ << 8U)
-                    | (uint32)((uint32)SYS_IRQ << 9U)
-                    | (uint32)((uint32)SYS_IRQ << 10U)
-                    | (uint32)((uint32)SYS_IRQ << 11U)
-                    | (uint32)((uint32)SYS_IRQ << 12U)
-                    | (uint32)((uint32)SYS_IRQ << 13U)
-                    | (uint32)((uint32)SYS_IRQ << 14U)
-                    | (uint32)((uint32)SYS_IRQ << 15U)
-                    | (uint32)((uint32)SYS_IRQ << 16U)
-                    | (uint32)((uint32)SYS_IRQ << 17U)
-                    | (uint32)((uint32)SYS_IRQ << 18U)
-                    | (uint32)((uint32)SYS_IRQ << 19U)
-                    | (uint32)((uint32)SYS_IRQ << 20U)
-                    | (uint32)((uint32)SYS_IRQ << 21U)
-                    | (uint32)((uint32)SYS_IRQ << 22U)
-                    | (uint32)((uint32)SYS_IRQ << 23U)
-                    | (uint32)((uint32)SYS_IRQ << 24U)
-                    | (uint32)((uint32)SYS_IRQ << 25U)
-                    | (uint32)((uint32)SYS_IRQ << 26U)
-                    | (uint32)((uint32)SYS_IRQ << 27U)
-                    | (uint32)((uint32)SYS_IRQ << 28U)
-                    | (uint32)((uint32)SYS_IRQ << 29U)
-                    | (uint32)((uint32)SYS_IRQ << 30U)
-                    | (uint32)((uint32)SYS_IRQ << 31U);
+    vimREG->FIRQPR1 = (uint32_t)((uint32_t)SYS_IRQ << 0U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 1U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 2U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 3U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 4U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 5U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 6U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 7U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 8U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 9U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 10U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 11U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 12U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 13U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 14U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 15U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 16U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 17U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 18U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 19U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 20U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 21U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 22U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 23U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 24U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 25U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 26U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 27U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 28U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 29U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 30U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 31U);
 
 
-    vimREG->FIRQPR2 = (uint32)((uint32)SYS_IRQ << 0U)
-                    | (uint32)((uint32)SYS_IRQ << 1U)
-                    | (uint32)((uint32)SYS_IRQ << 2U)
-                    | (uint32)((uint32)SYS_IRQ << 3U)
-                    | (uint32)((uint32)SYS_IRQ << 4U)
-                    | (uint32)((uint32)SYS_IRQ << 5U)
-                    | (uint32)((uint32)SYS_IRQ << 6U)
-                    | (uint32)((uint32)SYS_IRQ << 7U)
-                    | (uint32)((uint32)SYS_IRQ << 8U)
-                    | (uint32)((uint32)SYS_IRQ << 9U)
-                    | (uint32)((uint32)SYS_IRQ << 10U)
-                    | (uint32)((uint32)SYS_IRQ << 11U)
-                    | (uint32)((uint32)SYS_IRQ << 12U)
-                    | (uint32)((uint32)SYS_IRQ << 13U)
-                    | (uint32)((uint32)SYS_IRQ << 14U)
-                    | (uint32)((uint32)SYS_IRQ << 15U)
-                    | (uint32)((uint32)SYS_IRQ << 16U)
-                    | (uint32)((uint32)SYS_IRQ << 17U)
-                    | (uint32)((uint32)SYS_IRQ << 18U)
-                    | (uint32)((uint32)SYS_IRQ << 19U)
-                    | (uint32)((uint32)SYS_IRQ << 20U)
-                    | (uint32)((uint32)SYS_IRQ << 21U)
-                    | (uint32)((uint32)SYS_IRQ << 22U)
-                    | (uint32)((uint32)SYS_IRQ << 23U)
-                    | (uint32)((uint32)SYS_IRQ << 24U)
-                    | (uint32)((uint32)SYS_IRQ << 25U)
-                    | (uint32)((uint32)SYS_IRQ << 26U)
-                    | (uint32)((uint32)SYS_IRQ << 27U)
-                    | (uint32)((uint32)SYS_IRQ << 28U)
-                    | (uint32)((uint32)SYS_IRQ << 29U)
-                    | (uint32)((uint32)SYS_IRQ << 30U)
-                    | (uint32)((uint32)SYS_IRQ << 31U);
+    vimREG->FIRQPR2 = (uint32_t)((uint32_t)SYS_IRQ << 0U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 1U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 2U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 3U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 4U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 5U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 6U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 7U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 8U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 9U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 10U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 11U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 12U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 13U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 14U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 15U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 16U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 17U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 18U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 19U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 20U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 21U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 22U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 23U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 24U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 25U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 26U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 27U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 28U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 29U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 30U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 31U);
 
-    vimREG->FIRQPR3 = (uint32)((uint32)SYS_IRQ << 0U)
-                    | (uint32)((uint32)SYS_IRQ << 1U)
-                    | (uint32)((uint32)SYS_IRQ << 2U)
-                    | (uint32)((uint32)SYS_IRQ << 3U)
-                    | (uint32)((uint32)SYS_IRQ << 4U)
-                    | (uint32)((uint32)SYS_IRQ << 5U)
-                    | (uint32)((uint32)SYS_IRQ << 6U)
-                    | (uint32)((uint32)SYS_IRQ << 7U)
-                    | (uint32)((uint32)SYS_IRQ << 8U)
-                    | (uint32)((uint32)SYS_IRQ << 9U)
-                    | (uint32)((uint32)SYS_IRQ << 10U)
-                    | (uint32)((uint32)SYS_IRQ << 11U)
-                    | (uint32)((uint32)SYS_IRQ << 12U)
-                    | (uint32)((uint32)SYS_IRQ << 13U)
-                    | (uint32)((uint32)SYS_IRQ << 14U)
-                    | (uint32)((uint32)SYS_IRQ << 15U)
-                    | (uint32)((uint32)SYS_IRQ << 16U)
-                    | (uint32)((uint32)SYS_IRQ << 17U)
-                    | (uint32)((uint32)SYS_IRQ << 18U)
-                    | (uint32)((uint32)SYS_IRQ << 19U)
-                    | (uint32)((uint32)SYS_IRQ << 20U)
-                    | (uint32)((uint32)SYS_IRQ << 21U)
-                    | (uint32)((uint32)SYS_IRQ << 22U)
-                    | (uint32)((uint32)SYS_IRQ << 23U)
-                    | (uint32)((uint32)SYS_IRQ << 24U)
-                    | (uint32)((uint32)SYS_IRQ << 25U)
-                    | (uint32)((uint32)SYS_IRQ << 26U)
-                    | (uint32)((uint32)SYS_IRQ << 27U)
-                    | (uint32)((uint32)SYS_IRQ << 28U)
-                    | (uint32)((uint32)SYS_IRQ << 29U)
-                    | (uint32)((uint32)SYS_IRQ << 30U)
-                    | (uint32)((uint32)SYS_IRQ << 31U);
+    vimREG->FIRQPR3 = (uint32_t)((uint32_t)SYS_IRQ << 0U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 1U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 2U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 3U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 4U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 5U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 6U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 7U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 8U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 9U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 10U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 11U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 12U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 13U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 14U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 15U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 16U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 17U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 18U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 19U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 20U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 21U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 22U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 23U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 24U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 25U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 26U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 27U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 28U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 29U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 30U)
+                    | (uint32_t)((uint32_t)SYS_IRQ << 31U);
 
 
     /* enable interrupts */
-    vimREG->REQMASKSET0 = (uint32)((uint32)1U << 0U)
-                        | (uint32)((uint32)1U << 1U)
-                        | (uint32)((uint32)1U << 2U)
-                        | (uint32)((uint32)0U << 3U)
-                        | (uint32)((uint32)0U << 4U)
-                        | (uint32)((uint32)0U << 5U)
-                        | (uint32)((uint32)0U << 6U)
-                        | (uint32)((uint32)0U << 7U)
-                        | (uint32)((uint32)0U << 8U)
-                        | (uint32)((uint32)0U << 9U)
-                        | (uint32)((uint32)0U << 10U)
-                        | (uint32)((uint32)0U << 11U)
-                        | (uint32)((uint32)0U << 12U)
-                        | (uint32)((uint32)0U << 13U)
-                        | (uint32)((uint32)0U << 14U)
-                        | (uint32)((uint32)0U << 15U)
-                        | (uint32)((uint32)0U << 16U)
-                        | (uint32)((uint32)0U << 17U)
-                        | (uint32)((uint32)0U << 18U)
-                        | (uint32)((uint32)0U << 19U)
-                        | (uint32)((uint32)0U << 20U)
-                        | (uint32)((uint32)0U << 21U)
-                        | (uint32)((uint32)0U << 22U)
-                        | (uint32)((uint32)0U << 23U)
-                        | (uint32)((uint32)0U << 24U)
-                        | (uint32)((uint32)0U << 25U)
-                        | (uint32)((uint32)0U << 26U)
-                        | (uint32)((uint32)0U << 27U)
-                        | (uint32)((uint32)0U << 28U)
-                        | (uint32)((uint32)0U << 29U)
-                        | (uint32)((uint32)0U << 30U)
-                        | (uint32)((uint32)0U << 31U);
+    vimREG->REQMASKSET0 = (uint32_t)((uint32_t)1U << 0U)
+                        | (uint32_t)((uint32_t)1U << 1U)
+                        | (uint32_t)((uint32_t)1U << 2U)
+                        | (uint32_t)((uint32_t)0U << 3U)
+                        | (uint32_t)((uint32_t)0U << 4U)
+                        | (uint32_t)((uint32_t)0U << 5U)
+                        | (uint32_t)((uint32_t)0U << 6U)
+                        | (uint32_t)((uint32_t)0U << 7U)
+                        | (uint32_t)((uint32_t)0U << 8U)
+                        | (uint32_t)((uint32_t)0U << 9U)
+                        | (uint32_t)((uint32_t)0U << 10U)
+                        | (uint32_t)((uint32_t)0U << 11U)
+                        | (uint32_t)((uint32_t)0U << 12U)
+                        | (uint32_t)((uint32_t)0U << 13U)
+                        | (uint32_t)((uint32_t)0U << 14U)
+                        | (uint32_t)((uint32_t)0U << 15U)
+                        | (uint32_t)((uint32_t)0U << 16U)
+                        | (uint32_t)((uint32_t)0U << 17U)
+                        | (uint32_t)((uint32_t)0U << 18U)
+                        | (uint32_t)((uint32_t)0U << 19U)
+                        | (uint32_t)((uint32_t)0U << 20U)
+                        | (uint32_t)((uint32_t)0U << 21U)
+                        | (uint32_t)((uint32_t)0U << 22U)
+                        | (uint32_t)((uint32_t)0U << 23U)
+                        | (uint32_t)((uint32_t)0U << 24U)
+                        | (uint32_t)((uint32_t)0U << 25U)
+                        | (uint32_t)((uint32_t)0U << 26U)
+                        | (uint32_t)((uint32_t)0U << 27U)
+                        | (uint32_t)((uint32_t)0U << 28U)
+                        | (uint32_t)((uint32_t)0U << 29U)
+                        | (uint32_t)((uint32_t)0U << 30U)
+                        | (uint32_t)((uint32_t)0U << 31U);
 
-    vimREG->REQMASKSET1 = (uint32)((uint32)0U << 0U)
-                        | (uint32)((uint32)0U << 1U)
-                        | (uint32)((uint32)0U << 2U)
-                        | (uint32)((uint32)0U << 3U)
-                        | (uint32)((uint32)0U << 4U)
-                        | (uint32)((uint32)0U << 5U)
-                        | (uint32)((uint32)0U << 6U)
-                        | (uint32)((uint32)0U << 7U)
-                        | (uint32)((uint32)0U << 8U)
-                        | (uint32)((uint32)0U << 9U)
-                        | (uint32)((uint32)0U << 10U)
-                        | (uint32)((uint32)0U << 11U)
-                        | (uint32)((uint32)0U << 12U)
-                        | (uint32)((uint32)0U << 13U)
-                        | (uint32)((uint32)0U << 14U)
-                        | (uint32)((uint32)0U << 15U)
-                        | (uint32)((uint32)0U << 16U)
-                        | (uint32)((uint32)0U << 17U)
-                        | (uint32)((uint32)0U << 18U)
-                        | (uint32)((uint32)0U << 19U)
-                        | (uint32)((uint32)0U << 20U)
-                        | (uint32)((uint32)0U << 21U)
-                        | (uint32)((uint32)0U << 22U)
-                        | (uint32)((uint32)0U << 23U)
-                        | (uint32)((uint32)0U << 24U)
-                        | (uint32)((uint32)0U << 25U)
-                        | (uint32)((uint32)0U << 26U)
-                        | (uint32)((uint32)0U << 27U)
-                        | (uint32)((uint32)0U << 28U)
-                        | (uint32)((uint32)0U << 29U)
-                        | (uint32)((uint32)0U << 30U)
-                        | (uint32)((uint32)0U << 31U);
+    vimREG->REQMASKSET1 = (uint32_t)((uint32_t)0U << 0U)
+                        | (uint32_t)((uint32_t)0U << 1U)
+                        | (uint32_t)((uint32_t)0U << 2U)
+                        | (uint32_t)((uint32_t)0U << 3U)
+                        | (uint32_t)((uint32_t)0U << 4U)
+                        | (uint32_t)((uint32_t)0U << 5U)
+                        | (uint32_t)((uint32_t)0U << 6U)
+                        | (uint32_t)((uint32_t)0U << 7U)
+                        | (uint32_t)((uint32_t)0U << 8U)
+                        | (uint32_t)((uint32_t)0U << 9U)
+                        | (uint32_t)((uint32_t)0U << 10U)
+                        | (uint32_t)((uint32_t)0U << 11U)
+                        | (uint32_t)((uint32_t)0U << 12U)
+                        | (uint32_t)((uint32_t)0U << 13U)
+                        | (uint32_t)((uint32_t)0U << 14U)
+                        | (uint32_t)((uint32_t)0U << 15U)
+                        | (uint32_t)((uint32_t)0U << 16U)
+                        | (uint32_t)((uint32_t)0U << 17U)
+                        | (uint32_t)((uint32_t)0U << 18U)
+                        | (uint32_t)((uint32_t)0U << 19U)
+                        | (uint32_t)((uint32_t)0U << 20U)
+                        | (uint32_t)((uint32_t)0U << 21U)
+                        | (uint32_t)((uint32_t)0U << 22U)
+                        | (uint32_t)((uint32_t)0U << 23U)
+                        | (uint32_t)((uint32_t)0U << 24U)
+                        | (uint32_t)((uint32_t)0U << 25U)
+                        | (uint32_t)((uint32_t)0U << 26U)
+                        | (uint32_t)((uint32_t)0U << 27U)
+                        | (uint32_t)((uint32_t)0U << 28U)
+                        | (uint32_t)((uint32_t)0U << 29U)
+                        | (uint32_t)((uint32_t)0U << 30U)
+                        | (uint32_t)((uint32_t)0U << 31U);
 
-    vimREG->REQMASKSET2 = (uint32)((uint32)0U << 0U)
-                        | (uint32)((uint32)0U << 1U)
-                        | (uint32)((uint32)0U << 2U)
-                        | (uint32)((uint32)0U << 3U)
-                        | (uint32)((uint32)0U << 4U)
-                        | (uint32)((uint32)0U << 5U)
-                        | (uint32)((uint32)0U << 6U)
-                        | (uint32)((uint32)0U << 7U)
-                        | (uint32)((uint32)0U << 8U)
-                        | (uint32)((uint32)0U << 9U)
-                        | (uint32)((uint32)0U << 10U)
-                        | (uint32)((uint32)0U << 11U)
-                        | (uint32)((uint32)0U << 12U)
-                        | (uint32)((uint32)0U << 13U)
-                        | (uint32)((uint32)0U << 14U)
-                        | (uint32)((uint32)0U << 15U)
-                        | (uint32)((uint32)0U << 16U)
-                        | (uint32)((uint32)0U << 17U)
-                        | (uint32)((uint32)0U << 18U)
-                        | (uint32)((uint32)0U << 19U)
-                        | (uint32)((uint32)0U << 20U)
-                        | (uint32)((uint32)0U << 21U)
-                        | (uint32)((uint32)0U << 22U)
-                        | (uint32)((uint32)0U << 23U)
-                        | (uint32)((uint32)0U << 24U)
-                        | (uint32)((uint32)0U << 25U)
-                        | (uint32)((uint32)0U << 26U)
-                        | (uint32)((uint32)0U << 27U)
-                        | (uint32)((uint32)0U << 28U)
-                        | (uint32)((uint32)0U << 29U)
-                        | (uint32)((uint32)0U << 30U)
-                        | (uint32)((uint32)0U << 31U);
+    vimREG->REQMASKSET2 = (uint32_t)((uint32_t)0U << 0U)
+                        | (uint32_t)((uint32_t)0U << 1U)
+                        | (uint32_t)((uint32_t)0U << 2U)
+                        | (uint32_t)((uint32_t)0U << 3U)
+                        | (uint32_t)((uint32_t)0U << 4U)
+                        | (uint32_t)((uint32_t)0U << 5U)
+                        | (uint32_t)((uint32_t)0U << 6U)
+                        | (uint32_t)((uint32_t)0U << 7U)
+                        | (uint32_t)((uint32_t)0U << 8U)
+                        | (uint32_t)((uint32_t)0U << 9U)
+                        | (uint32_t)((uint32_t)0U << 10U)
+                        | (uint32_t)((uint32_t)0U << 11U)
+                        | (uint32_t)((uint32_t)0U << 12U)
+                        | (uint32_t)((uint32_t)0U << 13U)
+                        | (uint32_t)((uint32_t)0U << 14U)
+                        | (uint32_t)((uint32_t)0U << 15U)
+                        | (uint32_t)((uint32_t)0U << 16U)
+                        | (uint32_t)((uint32_t)0U << 17U)
+                        | (uint32_t)((uint32_t)0U << 18U)
+                        | (uint32_t)((uint32_t)0U << 19U)
+                        | (uint32_t)((uint32_t)0U << 20U)
+                        | (uint32_t)((uint32_t)0U << 21U)
+                        | (uint32_t)((uint32_t)0U << 22U)
+                        | (uint32_t)((uint32_t)0U << 23U)
+                        | (uint32_t)((uint32_t)0U << 24U)
+                        | (uint32_t)((uint32_t)0U << 25U)
+                        | (uint32_t)((uint32_t)0U << 26U)
+                        | (uint32_t)((uint32_t)0U << 27U)
+                        | (uint32_t)((uint32_t)0U << 28U)
+                        | (uint32_t)((uint32_t)0U << 29U)
+                        | (uint32_t)((uint32_t)0U << 30U)
+                        | (uint32_t)((uint32_t)0U << 31U);
 
-    vimREG->REQMASKSET3 = (uint32)((uint32)0U << 0U)
-                        | (uint32)((uint32)0U << 1U)
-                        | (uint32)((uint32)0U << 2U)
-                        | (uint32)((uint32)0U << 3U)
-                        | (uint32)((uint32)0U << 4U)
-                        | (uint32)((uint32)0U << 5U)
-                        | (uint32)((uint32)0U << 6U)
-                        | (uint32)((uint32)0U << 7U)
-                        | (uint32)((uint32)0U << 8U)
-                        | (uint32)((uint32)0U << 9U)
-                        | (uint32)((uint32)0U << 10U)
-                        | (uint32)((uint32)0U << 11U)
-                        | (uint32)((uint32)0U << 12U)
-                        | (uint32)((uint32)0U << 13U)
-                        | (uint32)((uint32)0U << 14U)
-                        | (uint32)((uint32)0U << 15U)
-                        | (uint32)((uint32)0U << 16U)
-                        | (uint32)((uint32)0U << 17U)
-                        | (uint32)((uint32)0U << 18U)
-                        | (uint32)((uint32)0U << 19U)
-                        | (uint32)((uint32)0U << 20U)
-                        | (uint32)((uint32)0U << 21U)
-                        | (uint32)((uint32)0U << 22U)
-                        | (uint32)((uint32)0U << 23U)
-                        | (uint32)((uint32)0U << 24U)
-                        | (uint32)((uint32)0U << 25U)
-                        | (uint32)((uint32)0U << 26U)
-                        | (uint32)((uint32)0U << 27U)
-                        | (uint32)((uint32)0U << 28U)
-                        | (uint32)((uint32)0U << 29U)
-                        | (uint32)((uint32)0U << 30U)
-                        | (uint32)((uint32)0U << 31U);
+    vimREG->REQMASKSET3 = (uint32_t)((uint32_t)0U << 0U)
+                        | (uint32_t)((uint32_t)0U << 1U)
+                        | (uint32_t)((uint32_t)0U << 2U)
+                        | (uint32_t)((uint32_t)0U << 3U)
+                        | (uint32_t)((uint32_t)0U << 4U)
+                        | (uint32_t)((uint32_t)0U << 5U)
+                        | (uint32_t)((uint32_t)0U << 6U)
+                        | (uint32_t)((uint32_t)0U << 7U)
+                        | (uint32_t)((uint32_t)0U << 8U)
+                        | (uint32_t)((uint32_t)0U << 9U)
+                        | (uint32_t)((uint32_t)0U << 10U)
+                        | (uint32_t)((uint32_t)0U << 11U)
+                        | (uint32_t)((uint32_t)0U << 12U)
+                        | (uint32_t)((uint32_t)0U << 13U)
+                        | (uint32_t)((uint32_t)0U << 14U)
+                        | (uint32_t)((uint32_t)0U << 15U)
+                        | (uint32_t)((uint32_t)0U << 16U)
+                        | (uint32_t)((uint32_t)0U << 17U)
+                        | (uint32_t)((uint32_t)0U << 18U)
+                        | (uint32_t)((uint32_t)0U << 19U)
+                        | (uint32_t)((uint32_t)0U << 20U)
+                        | (uint32_t)((uint32_t)0U << 21U)
+                        | (uint32_t)((uint32_t)0U << 22U)
+                        | (uint32_t)((uint32_t)0U << 23U)
+                        | (uint32_t)((uint32_t)0U << 24U)
+                        | (uint32_t)((uint32_t)0U << 25U)
+                        | (uint32_t)((uint32_t)0U << 26U)
+                        | (uint32_t)((uint32_t)0U << 27U)
+                        | (uint32_t)((uint32_t)0U << 28U)
+                        | (uint32_t)((uint32_t)0U << 29U)
+                        | (uint32_t)((uint32_t)0U << 30U)
+                        | (uint32_t)((uint32_t)0U << 31U);
 
     /* Set Capture event sources */
-    vimREG->CAPEVT = ((uint32)((uint32)0U << 0U)
-                     |(uint32)((uint32)0U << 16U));
+    vimREG->CAPEVT = ((uint32_t)((uint32_t)0U << 0U)
+                     |(uint32_t)((uint32_t)0U << 16U));
 }

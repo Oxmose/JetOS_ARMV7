@@ -50,56 +50,56 @@
 #ifndef __RTI_H__
 #define __RTI_H__
 
-#define RTI_FREQUENCY 9375000
+#include <stdint.h>
 
-typedef unsigned int uint32;
+#define RTI_FREQUENCY 9375000
 
 typedef volatile struct rtiBase
 {
-    uint32 GCTRL;          /**< 0x0000: Global Control Register   */
-    uint32 TBCTRL;         /**< 0x0004: Timebase Control Register */
-    uint32 CAPCTRL;        /**< 0x0008: Capture Control Register  */
-    uint32 COMPCTRL;       /**< 0x000C: Compare Control Register  */
+    uint32_t GCTRL;          /**< 0x0000: Global Control Register   */
+    uint32_t TBCTRL;         /**< 0x0004: Timebase Control Register */
+    uint32_t CAPCTRL;        /**< 0x0008: Capture Control Register  */
+    uint32_t COMPCTRL;       /**< 0x000C: Compare Control Register  */
     struct
     {
-        uint32 FRCx;       /**< 0x0010,0x0030: Free Running Counter x Register         */
-        uint32 UCx;        /**< 0x0014,0x0034: Up Counter x Register                   */
-        uint32 CPUCx;      /**< 0x0018,0x0038: Compare Up Counter x Register           */
-        uint32   rsvd1;    /**< 0x001C,0x003C: Reserved                                */
-        uint32 CAFRCx;     /**< 0x0020,0x0040: Capture Free Running Counter x Register */
-        uint32 CAUCx;      /**< 0x0024,0x0044: Capture Up Counter x Register           */
-        uint32   rsvd2[2U]; /**< 0x0028,0x0048: Reserved                                */
+        uint32_t FRCx;       /**< 0x0010,0x0030: Free Running Counter x Register         */
+        uint32_t UCx;        /**< 0x0014,0x0034: Up Counter x Register                   */
+        uint32_t CPUCx;      /**< 0x0018,0x0038: Compare Up Counter x Register           */
+        uint32_t   rsvd1;    /**< 0x001C,0x003C: Reserved                                */
+        uint32_t CAFRCx;     /**< 0x0020,0x0040: Capture Free Running Counter x Register */
+        uint32_t CAUCx;      /**< 0x0024,0x0044: Capture Up Counter x Register           */
+        uint32_t   rsvd2[2U]; /**< 0x0028,0x0048: Reserved                                */
     } CNT[2U];               /**< Counter x selection:
                                     - 0: Counter 0
                                     - 1: Counter 1                                       */
     struct
     {
-        uint32 COMPx;      /**< 0x0050,0x0058,0x0060,0x0068: Compare x Register        */
-        uint32 UDCPx;      /**< 0x0054,0x005C,0x0064,0x006C: Update Compare x Register */
+        uint32_t COMPx;      /**< 0x0050,0x0058,0x0060,0x0068: Compare x Register        */
+        uint32_t UDCPx;      /**< 0x0054,0x005C,0x0064,0x006C: Update Compare x Register */
     } CMP[4U];               /**< Compare x selection:
                                     - 0: Compare 0
                                     - 1: Compare 1
                                     - 2: Compare 2
                                     - 3: Compare 3                                       */
-    uint32 TBLCOMP;        /**< 0x0070: External Clock Timebase Low Compare Register   */
-    uint32 TBHCOMP;        /**< 0x0074: External Clock Timebase High Compare Register  */
-    uint32   rsvd3[2U];    /**< 0x0078: Reserved                                       */
-    uint32 SETINTENA;      /**< 0x0080: Set/Status Interrupt Register                  */
-    uint32 CLEARINTENA;    /**< 0x0084: Clear/Status Interrupt Register                */
-    uint32 INTFLAG;        /**< 0x0088: Interrupt Flag Register                        */
-    uint32   rsvd4;        /**< 0x008C: Reserved                                       */
-    uint32 DWDCTRL;        /**< 0x0090: Digital Watchdog Control Register   */
-    uint32 DWDPRLD;        /**< 0x0094: Digital Watchdog Preload Register */
-    uint32 WDSTATUS;       /**< 0x0098: Watchdog Status Register  */
-    uint32 WDKEY;          /**< 0x009C: Watchdog Key Register  */
-    uint32 DWDCNTR;        /**< 0x00A0: Digital Watchdog Down Counter   */
-    uint32 WWDRXNCTRL;     /**< 0x00A4: Digital Windowed Watchdog Reaction Control */
-    uint32 WWDSIZECTRL;    /**< 0x00A8: Digital Windowed Watchdog Window Size Control  */
-    uint32 INTCLRENABLE;   /**< 0x00AC: RTI Compare Interrupt Clear Enable Register  */
-    uint32 COMP0CLR;       /**< 0x00B0: RTI Compare 0 Clear Register   */
-    uint32 COMP1CLR;       /**< 0x00B4: RTI Compare 1 Clear Register */
-    uint32 COMP2CLR;       /**< 0x00B8: RTI Compare 2 Clear Register  */
-    uint32 COMP3CLR;       /**< 0x00BC: RTI Compare 3 Clear Register  */
+    uint32_t TBLCOMP;        /**< 0x0070: External Clock Timebase Low Compare Register   */
+    uint32_t TBHCOMP;        /**< 0x0074: External Clock Timebase High Compare Register  */
+    uint32_t   rsvd3[2U];    /**< 0x0078: Reserved                                       */
+    uint32_t SETINTENA;      /**< 0x0080: Set/Status Interrupt Register                  */
+    uint32_t CLEARINTENA;    /**< 0x0084: Clear/Status Interrupt Register                */
+    uint32_t INTFLAG;        /**< 0x0088: Interrupt Flag Register                        */
+    uint32_t   rsvd4;        /**< 0x008C: Reserved                                       */
+    uint32_t DWDCTRL;        /**< 0x0090: Digital Watchdog Control Register   */
+    uint32_t DWDPRLD;        /**< 0x0094: Digital Watchdog Preload Register */
+    uint32_t WDSTATUS;       /**< 0x0098: Watchdog Status Register  */
+    uint32_t WDKEY;          /**< 0x009C: Watchdog Key Register  */
+    uint32_t DWDCNTR;        /**< 0x00A0: Digital Watchdog Down Counter   */
+    uint32_t WWDRXNCTRL;     /**< 0x00A4: Digital Windowed Watchdog Reaction Control */
+    uint32_t WWDSIZECTRL;    /**< 0x00A8: Digital Windowed Watchdog Window Size Control  */
+    uint32_t INTCLRENABLE;   /**< 0x00AC: RTI Compare Interrupt Clear Enable Register  */
+    uint32_t COMP0CLR;       /**< 0x00B0: RTI Compare 0 Clear Register   */
+    uint32_t COMP1CLR;       /**< 0x00B4: RTI Compare 1 Clear Register */
+    uint32_t COMP2CLR;       /**< 0x00B8: RTI Compare 2 Clear Register  */
+    uint32_t COMP3CLR;       /**< 0x00BC: RTI Compare 3 Clear Register  */
 } rtiBASE_t;
 
 /** @def rtiREG1
@@ -296,19 +296,19 @@ typedef enum dwwdWindowSizeTag
 /* Configuration registers */
 typedef struct rti_config_reg
 {
-    uint32 CONFIG_GCTRL;
-    uint32 CONFIG_TBCTRL;
-    uint32 CONFIG_CAPCTRL;
-    uint32 CONFIG_COMPCTRL;
-    uint32 CONFIG_UDCP0;
-    uint32 CONFIG_UDCP1;
-    uint32 CONFIG_UDCP2;
-    uint32 CONFIG_UDCP3;
+    uint32_t CONFIG_GCTRL;
+    uint32_t CONFIG_TBCTRL;
+    uint32_t CONFIG_CAPCTRL;
+    uint32_t CONFIG_COMPCTRL;
+    uint32_t CONFIG_UDCP0;
+    uint32_t CONFIG_UDCP1;
+    uint32_t CONFIG_UDCP2;
+    uint32_t CONFIG_UDCP3;
 } rti_config_reg_t;
 
 
 /* Configuration registers initial value */
-#define RTI_GCTRL_CONFIGVALUE	 ((uint32)((uint32)0x5U << 16U) | 0x00000000U)
+#define RTI_GCTRL_CONFIGVALUE	 ((uint32_t)((uint32_t)0x5U << 16U) | 0x00000000U)
 #define RTI_TBCTRL_CONFIGVALUE  0x00000000U
 #define RTI_CAPCTRL_CONFIGVALUE  (0U | 0U)
 #define RTI_COMPCTRL_CONFIGVALUE (0x00001000U | 0x00000100U | 0x00000000U | 0x00000000U)
@@ -337,14 +337,14 @@ typedef struct rti_config_reg
 /* RTI Interface Functions */
 
 void init_rti(void);
-void rtiStartCounter(rtiBASE_t *rtiREG,uint32 counter);
-void rtiStopCounter(rtiBASE_t *rtiREG,uint32 counter);
-uint32 rtiResetCounter(rtiBASE_t *rtiREG,uint32 counter);
-void rtiSetPeriod(rtiBASE_t *rtiREG,uint32 compare, uint32 period);
-uint32 rtiGetPeriod(rtiBASE_t *rtiREG,uint32 compare);
-uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG,uint32 compare);
-void rtiEnableNotification(rtiBASE_t *rtiREG,uint32 notification);
-void rtiDisableNotification(rtiBASE_t *rtiREG,uint32 notification);
+void rtiStartCounter(rtiBASE_t *rtiREG,uint32_t counter);
+void rtiStopCounter(rtiBASE_t *rtiREG,uint32_t counter);
+uint32_t rtiResetCounter(rtiBASE_t *rtiREG,uint32_t counter);
+void rtiSetPeriod(rtiBASE_t *rtiREG,uint32_t compare, uint32_t period);
+uint32_t rtiGetPeriod(rtiBASE_t *rtiREG,uint32_t compare);
+uint32_t rtiGetCurrentTick(rtiBASE_t *rtiREG,uint32_t compare);
+void rtiEnableNotification(rtiBASE_t *rtiREG,uint32_t notification);
+void rtiDisableNotification(rtiBASE_t *rtiREG,uint32_t notification);
 void ja_bsp_process_timer(void);
 
 /**@}*/

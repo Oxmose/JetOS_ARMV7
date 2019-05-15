@@ -69,7 +69,7 @@
 void init_rti(void)
 {
     /** - Setup NTU source, debug options and disable both counter blocks */
-        rtiREG1->GCTRL = (uint32)((uint32)0x5U << 16U) | 0x00000000U;
+        rtiREG1->GCTRL = (uint32_t)((uint32_t)0x5U << 16U) | 0x00000000U;
 
         /** - Setup timebase for free running counter 0 */
         rtiREG1->TBCTRL = 0x00000000U;
@@ -144,7 +144,7 @@ void init_rti(void)
 }
 
 
-/** @fn void rtiStartCounter(rtiBASE_t *rtiREG, uint32 counter)
+/** @fn void rtiStartCounter(rtiBASE_t *rtiREG, uint32_t counter)
 *   @brief Starts RTI Counter block
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] counter Select counter block to be started:
@@ -156,12 +156,12 @@ void init_rti(void)
 /* SourceId : RTI_SourceId_002 */
 /* DesignId : RTI_DesignId_002 */
 /* Requirements : HL_CONQ_RTI_SR3 */
-void rtiStartCounter(rtiBASE_t *rtiREG, uint32 counter)
+void rtiStartCounter(rtiBASE_t *rtiREG, uint32_t counter)
 {
 /* USER CODE BEGIN (4) */
 /* USER CODE END */
 
-    rtiREG->GCTRL |= ((uint32)1U << (counter & 3U));
+    rtiREG->GCTRL |= ((uint32_t)1U << (counter & 3U));
 
     /**   @note The function rtiInit has to be called before this function can be used.\n
     *           This function has to be executed in privileged mode.
@@ -171,7 +171,7 @@ void rtiStartCounter(rtiBASE_t *rtiREG, uint32 counter)
 /* USER CODE END */
 }
 
-/** @fn void rtiStopCounter(rtiBASE_t *rtiREG, uint32 counter)
+/** @fn void rtiStopCounter(rtiBASE_t *rtiREG, uint32_t counter)
 *   @brief Stops RTI Counter block
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] counter Select counter to be stopped:
@@ -183,12 +183,12 @@ void rtiStartCounter(rtiBASE_t *rtiREG, uint32 counter)
 /* SourceId : RTI_SourceId_003 */
 /* DesignId : RTI_DesignId_003 */
 /* Requirements : HL_CONQ_RTI_SR4 */
-void rtiStopCounter(rtiBASE_t *rtiREG, uint32 counter)
+void rtiStopCounter(rtiBASE_t *rtiREG, uint32_t counter)
 {
 /* USER CODE BEGIN (6) */
 /* USER CODE END */
 
-    rtiREG->GCTRL &= ~(uint32)((uint32)1U << (counter & 3U));
+    rtiREG->GCTRL &= ~(uint32_t)((uint32_t)1U << (counter & 3U));
 
     /**   @note The function rtiInit has to be called before this function can be used.\n
     *           This function has to be executed in privileged mode.
@@ -198,7 +198,7 @@ void rtiStopCounter(rtiBASE_t *rtiREG, uint32 counter)
 /* USER CODE END */
 }
 
-/** @fn uint32 rtiResetCounter(rtiBASE_t *rtiREG, uint32 counter)
+/** @fn uint32_t rtiResetCounter(rtiBASE_t *rtiREG, uint32_t counter)
 *   @brief Reset RTI Counter block
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] counter Select counter block to be reset:
@@ -213,14 +213,14 @@ void rtiStopCounter(rtiBASE_t *rtiREG, uint32 counter)
 /* SourceId : RTI_SourceId_004 */
 /* DesignId : RTI_DesignId_004 */
 /* Requirements : HL_CONQ_RTI_SR5 */
-uint32 rtiResetCounter(rtiBASE_t *rtiREG, uint32 counter)
+uint32_t rtiResetCounter(rtiBASE_t *rtiREG, uint32_t counter)
 {
-    uint32 success = 0U;
+    uint32_t success = 0U;
 
 /* USER CODE BEGIN (8) */
 /* USER CODE END */
     /*SAFETYMCUSW 134 S MR:12.2 <APPROVED> "Hardware status bit read check" */
-    if ((rtiREG->GCTRL & (uint32)((uint32)1U << (counter & 3U))) == 0U)
+    if ((rtiREG->GCTRL & (uint32_t)((uint32_t)1U << (counter & 3U))) == 0U)
     {
         rtiREG->CNT[counter].UCx = 0x00000000U;
         rtiREG->CNT[counter].FRCx = 0x00000000U;
@@ -239,7 +239,7 @@ uint32 rtiResetCounter(rtiBASE_t *rtiREG, uint32 counter)
     return success;
 }
 
-/** @fn void rtiSetPeriod(rtiBASE_t *rtiREG, uint32 compare, uint32 period)
+/** @fn void rtiSetPeriod(rtiBASE_t *rtiREG, uint32_t compare, uint32_t period)
 *   @brief Set new period of RTI compare
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] compare Select compare to change period:
@@ -256,7 +256,7 @@ uint32 rtiResetCounter(rtiBASE_t *rtiREG, uint32 counter)
 /* SourceId : RTI_SourceId_005 */
 /* DesignId : RTI_DesignId_005 */
 /* Requirements : HL_CONQ_RTI_SR6 */
-void rtiSetPeriod(rtiBASE_t *rtiREG, uint32 compare, uint32 period)
+void rtiSetPeriod(rtiBASE_t *rtiREG, uint32_t compare, uint32_t period)
 {
 /* USER CODE BEGIN (10) */
 /* USER CODE END */
@@ -273,7 +273,7 @@ void rtiSetPeriod(rtiBASE_t *rtiREG, uint32 compare, uint32 period)
 /* USER CODE END */
 }
 
-/** @fn uint32 rtiGetPeriod(rtiBASE_t *rtiREG, uint32 compare)
+/** @fn uint32_t rtiGetPeriod(rtiBASE_t *rtiREG, uint32_t compare)
 *   @brief Get current period of RTI compare
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] compare Select compare to return the current period:
@@ -290,9 +290,9 @@ void rtiSetPeriod(rtiBASE_t *rtiREG, uint32 compare, uint32 period)
 /* SourceId : RTI_SourceId_006 */
 /* DesignId : RTI_DesignId_006 */
 /* Requirements : HL_CONQ_RTI_SR9 */
-uint32 rtiGetPeriod(rtiBASE_t *rtiREG, uint32 compare)
+uint32_t rtiGetPeriod(rtiBASE_t *rtiREG, uint32_t compare)
 {
-    uint32 period;
+    uint32_t period;
 
 /* USER CODE BEGIN (12) */
 /* USER CODE END */
@@ -308,7 +308,7 @@ uint32 rtiGetPeriod(rtiBASE_t *rtiREG, uint32 compare)
     return period;
 }
 
-/** @fn uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32 compare)
+/** @fn uint32_t rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32_t compare)
 *   @brief Get current tick of RTI compare
 *	@param[in] rtiREG Instance of one of the RTI modules.
 *   @param[in] compare Select compare to return the current tick:
@@ -323,13 +323,13 @@ uint32 rtiGetPeriod(rtiBASE_t *rtiREG, uint32 compare)
 /* SourceId : RTI_SourceId_007 */
 /* DesignId : RTI_DesignId_007 */
 /* Requirements : HL_CONQ_RTI_SR10 */
-uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32 compare)
+uint32_t rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32_t compare)
 {
-    uint32 tick;
-    uint32 counter = ((rtiREG->COMPCTRL & (uint32)((uint32)1U << (compare << 2U))) != 0U ) ? 1U : 0U;
-	uint32 RTI_CNT_FRCx = rtiREG->CNT[counter].FRCx;
-	uint32 RTI_CMP_COMPx = rtiREG->CMP[compare].COMPx;
-	uint32 RTI_CMP_UDCPx = rtiREG->CMP[compare].UDCPx;
+    uint32_t tick;
+    uint32_t counter = ((rtiREG->COMPCTRL & (uint32_t)((uint32_t)1U << (compare << 2U))) != 0U ) ? 1U : 0U;
+	uint32_t RTI_CNT_FRCx = rtiREG->CNT[counter].FRCx;
+	uint32_t RTI_CMP_COMPx = rtiREG->CMP[compare].COMPx;
+	uint32_t RTI_CMP_UDCPx = rtiREG->CMP[compare].UDCPx;
 
 /* USER CODE BEGIN (14) */
 /* USER CODE END */
@@ -345,7 +345,7 @@ uint32 rtiGetCurrentTick(rtiBASE_t *rtiREG, uint32 compare)
     return tick;
 }
 
-void rtiEnableNotification(rtiBASE_t *rtiREG, uint32 notification)
+void rtiEnableNotification(rtiBASE_t *rtiREG, uint32_t notification)
 {
 /* USER CODE BEGIN (38) */
 /* USER CODE END */
@@ -360,6 +360,7 @@ void rtiEnableNotification(rtiBASE_t *rtiREG, uint32 notification)
 /* USER CODE BEGIN (39) */
 /* USER CODE END */
 }
+
 
 #pragma CODE_STATE(ja_bsp_process_timer, 32)
 #pragma INTERRUPT(ja_bsp_process_timer, IRQ)

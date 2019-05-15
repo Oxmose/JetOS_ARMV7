@@ -23,7 +23,7 @@
 #ifndef __BSP_H__
 #define __BSP_H__
 
-typedef unsigned int uint32_t;
+#include <stdint.h>
 
 /**
  * @brief System register type 1.
@@ -271,22 +271,12 @@ typedef enum FLASH_POWER_MODE
     SYS_ACTIVE  = 3U  /**< Alias for flash bank power mode active  */
 }FLASH_POWER_MODE_E;
 
-/** @enum systemClockSource
+/** @enum SYS_CLOCK_SOURCE_E
 *   @brief Alias names for clock sources
-*
-*   This enumeration is used to provide alias names for the clock sources:
-*     - Oscillator
-*     - Pll1
-*     - External1
-*     - Low Power Oscillator Low
-*     - Low Power Oscillator High
-*     - PLL2
-*     - External2
-*     - Synchronous VCLK1
 */
-enum systemClockSource
+typedef enum SYS_CLOCK_SOURCE
 {
-    SYS_OSC             = 0x0U,  /**< Alias for oscillator clock Source                */
+    SYS_OSC             = 0x0U,
     SYS_PLL1            = 0x1U,  /**< Alias for Pll1 clock Source                      */
     SYS_EXTERNAL1       = 0x3U,  /**< Alias for external clock Source                  */
     SYS_LPO_LOW         = 0x4U,  /**< Alias for low power oscillator low clock Source  */
@@ -296,13 +286,13 @@ enum systemClockSource
     SYS_VCLK            = 0x9U,  /**< Alias for synchronous VCLK1 clock Source         */
     SYS_PLL2_ODCLK_8    = 0xEU,  /**< Alias for PLL2_post_ODCLK/8                      */
     SYS_PLL2_ODCLK_16   = 0xFU   /**< Alias for PLL2_post_ODCLK/8                      */
-};
+} SYS_CLOCK_SOURCE_E;
 
-#define SYS_DOZE_MODE        0x000F3F02U
-#define SYS_SNOOZE_MODE      0x000F3F03U
-#define SYS_SLEEP_MODE       0x000FFFFFU
-#define LPO_TRIM_VALUE       (((*(volatile uint32_t *)0xF00801B4U) & 0xFFFF0000U)>>16U)
-#define SYS_EXCEPTION        (*(volatile uint32_t *)0xFFFFFFE4U)
+#define SYS_DOZE_MODE        0x000F3F02
+#define SYS_SNOOZE_MODE      0x000F3F03
+#define SYS_SLEEP_MODE       0x000FFFFF
+#define LPO_TRIM_VALUE       (((*(volatile uint32_t *)0xF00801B4) & 0xFFFF0000)>>16U)
+#define SYS_EXCEPTION        (*(volatile uint32_t *)0xFFFFFFE4)
 
 void ja_bsp_init(void);
 

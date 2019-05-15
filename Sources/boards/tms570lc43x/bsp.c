@@ -10,7 +10,8 @@
 #include <bsp/vim.h>
 #include <bsp/rti.h>
 #include <core/time.h>
-
+#include <interrupt.h>
+#include <space.h>
 static void init_periph(void)
 {
     /** - Disable Peripherals before peripheral powerup*/
@@ -39,7 +40,6 @@ static void init_pll(void)
 {
     /* Disable PLL1 and PLL2 */
     SYS_REG_1_BASE->CSDISSET = 0x00000002U | 0x00000040U;
-    /*SAFETYMCUSW 28 D MR:NA <APPROVED> "Hardware status bit read check" */
     while((SYS_REG_1_BASE->CSDIS & 0x42U) != 0x42U)
     {
     /* Wait */
@@ -265,25 +265,22 @@ void ja_bsp_init(void)
     init_clock();
     init_pins();
     init_serial();
+    __TI_auto_init();
     serial_write("BSP Initialized\r\n", 17);
 
     init_vim();
+    _enable_interrupt_();
     serial_write("VIM Initialized\r\n", 17);
 
-    _enable_IRQ_interrupt_();
-
     init_rti();
-
     serial_write("RTI Initialized\r\n", 17);
 
     /* TODO Port from JetOS */
     //jet_console_init_all();
     serial_write("Console Initialized\r\n", 21);
 
-    /* TODO Port from JetOS */
     rtiEnableNotification(rtiREG1, rtiNOTIFICATION_COMPARE0);
     rtiSetPeriod(rtiREG1, rtiCOMPARE0, RTI_FREQUENCY / POK_TIMER_FREQUENCY);
     rtiStartCounter(rtiREG1, 0);
     serial_write("Timers Initialized\r\n", 20);
-
 }

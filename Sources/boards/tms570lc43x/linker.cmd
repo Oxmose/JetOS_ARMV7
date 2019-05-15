@@ -47,9 +47,12 @@ MEMORY
 {
 	/* Interrupt vector */
     VECTORS (X)  : origin=0x00000000 length=0x00000020
-    FLASH   (RX) : origin=0x00000020 length=0x002FFFDE
+    FLASH   (RX) : origin=0x00000020 length=0x001FFFDF
+    S_FLASH (RX) : origin=0x00200000 length=0x00100000
     STACKS  (RW) : origin=0x08000000 length=0x00004000
-    RAM     (RW) : origin=0x08004000 length=0x0003BFFF
+    HEAP    (RW) : origin=0x08004000 length=0x00004000
+    KRAM    (RW) : origin=0x08008000 length=0x00010000
+    URAM    (RW) : origin=0x08018000 length=0x00068000
 }
 
 /*----------------------------------------------------------------------------*/
@@ -58,19 +61,23 @@ MEMORY
 SECTIONS
 {
 	/* Int vectors first */
-    .intvecs : {} > VECTORS
+    .intvecs :               {} > VECTORS
     /* Rest of code to user mode flash region */
     .text        align(32) : {} > FLASH
     .const       align(32) : {} > FLASH
+    .cinit                 : {} > FLASH
+    .shared_code align(32) : {} > S_FLASH
     /* Stack in dedicated space */
-    .stacks       : {} > STACKS
-    /* FreeRTOS Kernel data in protected region of RAM */
-    .bss          : {} > RAM
-    .data         : {} > RAM    
+    .stacks      align(32) : {} > STACKS
+    .sysheap     align(32) : {} > HEAP
+    .bss          : {} > KRAM
+    .data         : {} > KRAM
+    .userdata     : {./Sources/dummy/dummy.obj(.data, .bss)} > URAM
+    .userconst    : {./Sources/dummy/dummy.obj(.const, .cinit)} > URAM
+	.usercode     : {./Sources/dummy/dummy.obj(.text)} > URAM
 }
 
 /*----------------------------------------------------------------------------*/
 /* Misc                                                                       */
-
 
 /*----------------------------------------------------------------------------*/

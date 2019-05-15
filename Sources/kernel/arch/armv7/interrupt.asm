@@ -53,14 +53,31 @@ _enable_interrupt_
 
         .endasmfunc
 
+;-------------------------------------------------------------------------------
+; Disable interrupts - CPU IRQ & FIQ
+; SourceId : CORE_SourceId_027
+; DesignId : CORE_DesignId_024
+; Requirements: HL_CONQ_CORE_SR10
+
+       .def _disable_interrupt_
+       .asmfunc
+
+_disable_interrupt_
+
+        cpsid if
+        bx    lr
+
+        .endasmfunc
+
     .sect ".intvecs"
     .arm
 
 	.ref _c_int00
+	.ref pok_arch_sc_int
 ; Reset Vector, jump to init
 	b _c_int00
 	bl defaultint
-	bl defaultint
+	b  pok_arch_sc_int
 	bl defaultint
 	bl defaultint
 	bl defaultint
