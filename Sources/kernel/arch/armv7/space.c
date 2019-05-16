@@ -12,14 +12,15 @@
 #include <libc.h>
 #include <asp/arch.h>
 #include <asp/space.h>
-#include <bsp/serial.h>
 #include <mpu.h>
 #include <space.h>
+
+#include "../../../boards/armv7/include/bsp/serial.h"
 #define mpuSUBREGION_DISABLE (mpuSUBREGION0_DISABLE | mpuSUBREGION1_DISABLE | mpuSUBREGION2_DISABLE |\
                               mpuSUBREGION3_DISABLE | mpuSUBREGION4_DISABLE | mpuSUBREGION5_DISABLE |\
                               mpuSUBREGION6_DISABLE | mpuSUBREGION7_DISABLE)
 
-#define USER_START_MPU_REGION 6
+#define USER_START_MPU_REGION 5
 
 static uint32_t mpu_get_size(uint32_t size)
 {
@@ -152,8 +153,9 @@ void ja_space_init(void)
 {
     uint32_t phys_start = POK_PARTITION_MEMORY_PHYS_START;
     uint32_t i;
+    uint32_t j;
+    uint32_t sub_reg_count;
     uint32_t reg_count;
-    uint32_t align;
 
     /* Init MPU */
     _mpuInit_();
@@ -171,18 +173,15 @@ void ja_space_init(void)
     mpu_set_region(mpuREGION2, 0x00000000, MPU_4_MB | mpuREGION_ENABLE,
                      MPU_NORMAL_OIWTNOWA_SHARED, MPU_PRIV_RO_USER_NA_EXEC);
     /* Set the kernel ram region */
-    mpu_set_region(mpuREGION3, 0x08000000, MPU_256_KB | mpuREGION_ENABLE,
+    mpu_set_region(mpuREGION3, 0x08000000, MPU_512_KB | mpuREGION_ENABLE,
                      MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RW_USER_NA_NOEXEC);
-    /* Set the kernel ram ecc region */
-    mpu_set_region(mpuREGION4, 0x08400000, MPU_256_KB | mpuREGION_ENABLE,
-                 MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RW_USER_NA_NOEXEC);
     /* Set the kernel peripheral region */
-    mpu_set_region(mpuREGION5, 0xF8000000, MPU_128_MB |
+    mpu_set_region(mpuREGION4, 0xF8000000, MPU_128_MB |
                  mpuREGION_ENABLE | mpuSUBREGION0_DISABLE |
                  mpuSUBREGION1_DISABLE | mpuSUBREGION2_DISABLE,
                  MPU_DEVICE_NONSHAREABLE, MPU_PRIV_RW_USER_NA_NOEXEC);
     /* Set the shared section */
-    mpu_set_region(mpuREGION6, 0x00200000, MPU_1_MB | mpuREGION_ENABLE,
+    mpu_set_region(mpuREGION5, 0x00100000, MPU_1_MB | mpuREGION_ENABLE,
                    MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RO_USER_RO_EXEC);
 #else
 
@@ -209,9 +208,6 @@ void ja_space_init(void)
     {
         struct ja_armv7_space* space = &ja_spaces[i];
 
-        /*
-         * Code and data segments should be aligned on 4k;
-         */
         size_t size_total = space->size_normal;
 
         if(space->size_heap > 0)
@@ -226,22 +222,55 @@ void ja_space_init(void)
         /* Heap should be aligned on 4 */
         size_total = ALIGN_VAL(size_total, 4) + space->size_stack;
 
-        /* Such a way, next space will have alignment suitable for code and data. */
-        align = get_alignement(size_total);
-        space->size_total = ALIGN_VAL(size_total, align);
+        /* We need 8K alignement */
+        size_total = ALIGN_VAL(size_total, 8192);
+        printf("Partition size 0x%x\n\r", size_total);
 
-        space->phys_base = ALIGN_VAL(phys_start, align);
+        /* Get the number of MPU regions */
+        reg_count = size_total / 65536;
+        if(size_total % 65536 != 0)
+        {
+            ++reg_count;
+        }
+        /* Get the number of sub region we need */
+        sub_reg_count = size_total / 8192;
+        printf("Partition regions: %d | Sub regions:  %d\n\r", reg_count, sub_reg_count);
+        if(reg_count > 11)
+        {
+            printf("Not enough memory to create partition space %d\n\r", i);
+            while(1);
+        }
+
+        space->size_total = size_total;
+
+        /* Such a way, next space will have alignment suitable for code and data. */
+        space->phys_base = ALIGN_VAL(phys_start, 8192);
 
         uint32_t phys_base_end = space->phys_base + space->size_total;
         if(phys_start < phys_base_end)
             phys_start = phys_base_end;
 
         /** Add MPU entry context */
-        space->mpu_size = mpu_get_size(space->size_total) | mpuREGION_ENABLE;
+        for(j = 0; j < reg_count; ++j)
+        {
+            space->mpu_size[j] = MPU_64_KB | mpuREGION_ENABLE;
+            space->mpu_base[j] = 1024 * 64 * j + space->phys_base;
+            if(sub_reg_count >= 8)
+            {
+                sub_reg_count -= 8;
+            }
+            else
+            {
+                /* Disable sub regions that are not needed */
+                space->mpu_size[j] |= (0xFF << (sub_reg_count + 8)) & 0xFF00;
+            }
+        }
+        space->mpu_reg  = reg_count;
         space->mpu_type = MPU_NORMAL_OIWBWA_NONSHARED;
         space->mpu_perm = MPU_PRIV_RW_USER_RW_EXEC;
 
         /* TODO: Output position of partitions */
+        printf("Create partition space: 0x%x -> 0x%x\n\r", space->phys_base, phys_base_end);
     }
 
     /* Enable MPU */
@@ -275,24 +304,31 @@ void __user* ja_space_get_heap(jet_space_id space_id)
 {
    struct ja_armv7_space* space = &ja_spaces[space_id - 1];
 
-   return (void __user*)(space->heap_end - space->size_heap);
+   return (void __user*)space->phys_base + (space->heap_end - space->size_heap);
 }
 
 static jet_space_id current_space_id = 0;
 
 void ja_space_switch (jet_space_id space_id)
 {
+    uint32_t i;
     if(current_space_id != 0) {
-        _mpuSetRegion_(USER_START_MPU_REGION);
-        _mpuSetRegionSizeRegister_(mpuREGION_DISABLE);
-        _mpuSetRegionBaseAddress_(0);
-        _mpuSetRegionTypeAndPermission_(MPU_NORMAL_OINC_NONSHARED, MPU_PRIV_NA_USER_NA_NOEXEC);
+        for(i = 0; i < ja_spaces[current_space_id - 1].mpu_reg; ++i)
+        {
+            _mpuSetRegion_(USER_START_MPU_REGION + i);
+            _mpuSetRegionSizeRegister_(mpuREGION_DISABLE);
+            _mpuSetRegionBaseAddress_(0);
+            _mpuSetRegionTypeAndPermission_(MPU_NORMAL_OINC_NONSHARED, MPU_PRIV_NA_USER_NA_NOEXEC);
+        }
     }
     if(space_id != 0) {
-        _mpuSetRegion_(USER_START_MPU_REGION);
-        _mpuSetRegionBaseAddress_(ja_spaces[space_id - 1].phys_base);
-        _mpuSetRegionTypeAndPermission_(ja_spaces[space_id - 1].mpu_type, ja_spaces[space_id - 1].mpu_perm);
-        _mpuSetRegionSizeRegister_(ja_spaces[space_id - 1].mpu_size);
+        for(i = 0; i < ja_spaces[space_id - 1].mpu_reg; ++i)
+        {
+            _mpuSetRegion_(USER_START_MPU_REGION + i);
+            _mpuSetRegionBaseAddress_(ja_spaces[space_id - 1].mpu_base[i]);
+            _mpuSetRegionTypeAndPermission_(ja_spaces[space_id - 1].mpu_type, ja_spaces[space_id - 1].mpu_perm);
+            _mpuSetRegionSizeRegister_(ja_spaces[space_id - 1].mpu_size[i]);
+        }
     }
 
     current_space_id = space_id;
@@ -326,4 +362,15 @@ jet_ustack_t ja_ustack_alloc (jet_space_id space_id, size_t stack_size)
         return result;
     }
     return NULL;
+}
+
+
+uintptr_t pok_virt_to_phys(uintptr_t virt)
+{
+    return virt;
+}
+
+uintptr_t pok_phys_to_virt(uintptr_t phys)
+{
+    return phys;
 }

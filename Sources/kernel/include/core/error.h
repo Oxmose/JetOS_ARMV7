@@ -16,7 +16,9 @@
 #ifndef __POK_CORE_ERROR_H__
 #define __POK_CORE_ERROR_H__
 
+#include <stdint.h>
 #include <assert.h>
+#include <types.h>
 
 /* Global error processing. */
 

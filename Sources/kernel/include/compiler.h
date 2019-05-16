@@ -9,7 +9,7 @@
  * Currently assume compiler to be gcc.
  */
 
-#define barrier() (__asm__ __volatile__("mcr p15, 0, r0, c7, c10, 5" : : : "memory" : "volatile"))
+#define barrier() (__asm_barier__())
 
 /*
  * Access (read or write) given variable only once. Do not cache its value.

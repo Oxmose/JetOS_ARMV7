@@ -30,7 +30,7 @@
 #include <uapi/thread_types.h>
 
 #include <types.h>
-#include <errno.h>
+#include <uapi/errno.h>
 
 #include <core/delayed_event.h>
 #include <list.h>

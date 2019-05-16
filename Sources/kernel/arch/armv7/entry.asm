@@ -1,6 +1,6 @@
 
 	.ref pok_arch_init
-
+	.ref jet_boot
 
 	.text
 	.arm
@@ -12,6 +12,7 @@ _c_int00:
 	bl _init_cpu_arch
 	bl _cpu_reg_init
 	bl pok_arch_init
+	bl jet_boot
 
 	.endasmfunc
 
@@ -125,6 +126,13 @@ _init_cpu_arch:
 	bx lr
 
     .endasmfunc
+
+    .def    __asm_barier__
+	.asmfunc
+__asm_barier__:
+	dmb
+
+	.endasmfunc
 
 ;--------------------------------------
 ; Stacks

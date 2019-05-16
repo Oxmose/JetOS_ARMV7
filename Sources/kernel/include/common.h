@@ -52,9 +52,9 @@
  * 
  * Implementation is taken from Linux kernel.
  */
-#define container_of(ptr, type, member) ({                   \
-    const typeof( ((type *)0)->member)* __mptr = (ptr);      \
-    (type *)( (char*) __mptr - offsetof(type, member) ); })
+#define container_of(ptr, thetype, member) ({                   \
+    const typeof( ((thetype *)0)->member)* __mptr = (ptr);      \
+    (thetype *)( (char*) __mptr - offsetof(thetype, member) ); })
 
 /*
  * Return minimal value, which is greater-or-equal than given value

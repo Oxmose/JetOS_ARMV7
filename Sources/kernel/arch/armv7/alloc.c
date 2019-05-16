@@ -83,5 +83,16 @@ jet_stack_t pok_stack_alloc(uint32_t stack_size)
     return (uint32_t)stack_head;
 }
 
+/*
+ * Allocate place for store floating point registers.
+ *
+ * May be called only during OS init.
+ */
+jet_fp_store_t* ja_alloc_fp_store(void)
+{
+    jet_fp_store_t* res = ja_mem_alloc_aligned(sizeof(jet_fp_store_t), 4);
+
+    return res;
+}
 
 

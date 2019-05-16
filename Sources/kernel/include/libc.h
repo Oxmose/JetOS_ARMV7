@@ -20,6 +20,7 @@
 #include <config.h>
 #include <stdarg.h>
 #include <types.h>
+#include <stddef.h>
 
 void  *memcpy(void * to, const void * from, size_t n);
 void *memmove(void *dest, const void *src, size_t count);

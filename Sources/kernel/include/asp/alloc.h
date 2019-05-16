@@ -18,6 +18,11 @@
 
 #include <types.h>
 
+typedef struct jet_fp_store
+{
+    unsigned int reg[32];
+}jet_fp_store_t;
+
 /* 
  * Allocate memory chunk of given size and with given alignment.
  * 

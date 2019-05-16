@@ -19,7 +19,7 @@
 #include <types.h>
 #include <asp/cons.h>
 #include <common.h>
-#include <errno.h>
+#include <uapi/errno.h>
 
 /* 
  * Do-nothing stream.

@@ -75,7 +75,9 @@ struct ja_armv7_space
      */
     size_t size_stack_used;
 
-    uint32_t mpu_size;
+    uint32_t mpu_base[11];
+    uint32_t mpu_size[11];
+    uint32_t mpu_reg;
     uint32_t mpu_type;
     uint32_t mpu_perm;
 };

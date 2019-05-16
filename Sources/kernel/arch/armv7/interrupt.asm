@@ -6,6 +6,7 @@ defaultint:
 
 	.endasmfunc
 
+
 ;-------------------------------------------------------------------------------
 ; Disable IRQ interrupt
 ; SourceId : CORE_SourceId_025
@@ -68,6 +69,14 @@ _disable_interrupt_
         bx    lr
 
         .endasmfunc
+
+	.def _get_cspr_
+    .asmfunc
+_get_cspr_:
+	mrs r0, CPSR
+	bx lr
+
+	 .endasmfunc
 
     .sect ".intvecs"
     .arm

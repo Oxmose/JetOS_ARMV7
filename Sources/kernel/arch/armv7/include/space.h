@@ -14,6 +14,7 @@
  */
 #define POK_PARTITION_MEMORY_PHYS_START URAM_BASE_ADDRESS
 
+
 void ja_space_init(void);
 
 

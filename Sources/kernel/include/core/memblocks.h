@@ -3,7 +3,7 @@
 
 #include <uapi/memblock_types.h>
 #include <common.h>
-#include <errno.h>
+#include <uapi/errno.h>
 
 pok_ret_t pok_memory_block_get_status(
         const char* name,
