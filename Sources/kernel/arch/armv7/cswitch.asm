@@ -21,6 +21,7 @@ ja_context_jump:
 	.def context_restore
     .asmfunc
 context_restore:
+
 	; Restore regs
 	ldr r1, [r0, #4]
 	ldr r2, [r0, #8]
@@ -36,7 +37,7 @@ context_restore:
 	ldr r12, [r0, #48]
 
 	; Restore lr
-	ldr pc, [r0, #52]
+	ldr pc, [r0, #56]
 
     .endasmfunc
 
@@ -68,3 +69,29 @@ ja_context_restart_and_save:
 	str sp, [r2]
 	b ja_context_restart
 	.endasmfunc
+
+	.def ja_context_switch
+    .asmfunc
+ja_context_switch:
+
+	; Save regs
+	str r1, [r0, #4]
+	str r2, [r0, #8]
+	str r3, [r0, #12]
+	str r4, [r0, #16]
+	str r5, [r0, #20]
+	str r6, [r0, #24]
+	str r7, [r0, #28]
+	str r8, [r0, #32]
+	str r9, [r0, #36]
+	str r10, [r0, #40]
+	str r11, [r0, #44]
+	str r12, [r0, #48]
+
+	; Restore lr
+	str pc, [r0, #56]
+
+	mov r0, r1
+	b context_restore
+
+    .endasmfunc

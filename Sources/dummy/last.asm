@@ -4,12 +4,7 @@
 ;      Author: Alexy
 ;
 
-	.def ja_context_switch
-    .asmfunc
-ja_context_switch:
-	b ja_context_switch
 
-    .endasmfunc
 
     .def printf_debug
     .asmfunc

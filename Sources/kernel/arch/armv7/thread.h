@@ -14,6 +14,7 @@
 struct jet_context
 {
   uint32_t regs[13];
+  uint32_t flags;
 
   uint32_t lr;
   uint32_t sp;

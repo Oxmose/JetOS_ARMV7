@@ -268,14 +268,6 @@ void pok_sched_start (void)
     pok_sched_restart();
 }
 
-/* Static variables used to trace with qemu */
-#define QEMU_TRACING 0
-
-#if QEMU_TRACING
-static int started = 0;
-static int ended = 0;
-static int nb_major_time_frame = 0;
-#endif /* QEMU_TRACE */
 /********************************************/
 
 /*
@@ -300,22 +292,6 @@ static void pok_sched(void)
     {
         pok_sched_next_major_frame += pok_config_scheduling_major_frame;
         pok_sched_current_slot = 0;
-
-        /********Added code for qemu trace ************/
-#if QEMU_TRACING
-        ++nb_major_time_frame;
-        if(started && !ended && (nb_major_time_frame >= 10))
-        {
-            __asm__ __volatile__(".byte 0x0F, 0xA7, 0x00, 0x00\n");
-            ended = 1;
-        }
-        else if(!started)
-        {
-            __asm__ __volatile__(".byte 0x0F, 0xA6, 0x00, 0x00\n");
-            started = 1;
-        }
-#endif /* QEMU_TRACING */
-        /*********************************************/
     }
     pok_sched_next_deadline += pok_module_sched[pok_sched_current_slot].duration;
 
@@ -492,6 +468,7 @@ static void pok_partition_return_user_common(void)
     }
 
     part->preempt_local_disabled = 0;
+
 #if POK_NEEDS_GDB
     pok_in_user_space = TRUE;
 #endif
