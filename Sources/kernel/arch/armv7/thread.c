@@ -37,7 +37,6 @@ struct jet_context* ja_context_init (jet_stack_t sp, void (*entry)(void))
      * T = 0
      * M = 10000
      * */
-    ctx->flags = 0x00000380;
 
     ctx->regs[1] = (uint32_t)entry;
     ctx->lr = (uint32_t)ja_kernel_thread;

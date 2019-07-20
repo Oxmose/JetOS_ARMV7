@@ -36,6 +36,9 @@ context_restore:
 	ldr r11, [r0, #44]
 	ldr r12, [r0, #48]
 
+	; Restore sp
+	;ldr sp, [r0, #52]
+
 	; Restore lr
 	ldr pc, [r0, #56]
 
@@ -74,24 +77,70 @@ ja_context_restart_and_save:
     .asmfunc
 ja_context_switch:
 
-	; Save regs
-	str r1, [r0, #4]
-	str r2, [r0, #8]
-	str r3, [r0, #12]
-	str r4, [r0, #16]
-	str r5, [r0, #20]
-	str r6, [r0, #24]
-	str r7, [r0, #28]
-	str r8, [r0, #32]
-	str r9, [r0, #36]
-	str r10, [r0, #40]
-	str r11, [r0, #44]
-	str r12, [r0, #48]
+	bx lr
 
-	; Restore lr
-	str pc, [r0, #56]
+	PUSH {r1}
+	ldr  r1, [r0, #0]
 
-	mov r0, r1
-	b context_restore
+	; Save registers
+	STMFD      r1,{R0-lr}
+	sub        r1, r1, #60
+	MRS        r3, CPSR
+    STMFD      r1, {r3}
+    sub        r1, r1, #4
+    str        r1, [r0, #0]
+
+    POP  {r1}
+
+    ; Restore registers
+    sub        r1, r1, #64
+    LDMFD  	   r1, {r0}
+    add        r1, r1, #4
+    MSRNE      CPSR, r0
+
+	LDMFD      r1, {R0 - lr}
+    SUBSNE     pc, lr, #0
 
     .endasmfunc
+
+
+	.ref ja_bsp_process_timer
+	.ref rti_eoi
+    .def timer_int_wrapper
+    .asmfunc
+timer_int_wrapper:
+    ;PUSH      {r0-r12}
+    ;PUSH      {lr}
+    ;MRS       r0, SPSR
+    ;PUSH      {r0}
+
+
+
+	;POP {r0}
+	;MSR r0, SPSR_cxsf
+    ;POP {r0-r12}
+	;POP {pc}^
+
+	;STMIA   r13, {r0 - r14}^        ; Dump user registers above r13.
+
+	;MRS     r0, SPSR                ; Pick up the user status
+    ;STMDB   r13, {r0, lr}           ; and dump with return address below.
+
+	; Switch to supervisor mode
+	CPS     #0x13
+	;STMIA   r13, {r12 - r13}        ; Dump user registers above r13.
+
+    bl ja_bsp_process_timer
+
+    ;LDMNEIA r13, {r12 - r13}        ; Get the rest of the registers
+
+    ; Switch to IRQ mode
+    CPS     #0x12
+
+    ;MSRNE   SPSR_cxsf, r0           ; Restore the status.
+    ;LDMNEIA r13, {r0 - r14}^        ; Get the rest of the registers
+    ;NOP
+
+    SUBNES  pc, lr, #4              ; and return and restore CPSR.
+
+	.endasmfunc

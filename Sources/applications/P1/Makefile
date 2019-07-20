@@ -37,7 +37,7 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
            -m"JetOS.map" -i"$(TI_ENV_WIN)/lib" -i"$(TI_ENV_WIN)/include"        \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="P1.xml"         \
-           --rom_model --be32 -llibc.a --entry_point=main
+           --rom_model --be32 -llibc.a --entry_point=main -L../../kernel/kernel.a
            
 .PHONY: all
 all: init P1.elf

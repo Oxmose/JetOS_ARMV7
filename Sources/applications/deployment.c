@@ -629,8 +629,8 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
             // Allocate 1 event slot per queuing port plus 2 slots for timer.
             .partition_event_max = 1 + 2,
 
-            .period = 30000000,
-            .duration = 15000000,
+            .period = 200000,
+            .duration = 100000,
             .partition_id = 0,
 
             .space_id = 1,
@@ -663,8 +663,8 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
             // Allocate 1 event slot per queuing port plus 2 slots for timer.
             .partition_event_max = 1 + 2,
 
-            .period = 30000000,
-            .duration = 15000000,
+            .period = 200000,
+            .duration = 100000,
             .partition_id = 1,
 
             .space_id = 2,
@@ -702,7 +702,7 @@ pok_partition_t partition_monitor =
 
     .partition_event_max = 0,
 
-    .period = 30000000, 
+    .period = 200000,
     .space_id = 0,
 
     .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
@@ -728,15 +728,15 @@ pok_partition_t partition_gdb =
 /************************* Setup time slots ***************************/
 const pok_sched_slot_t pok_module_sched[2] = {
     {
-        .duration = 15000000,
+        .duration = 100000,
         .offset = 0,
         .partition = &pok_partitions_arinc[0].base_part,
         .periodic_processing_start = TRUE,
         .id = 0
     },
     {
-        .duration = 15000000,
-        .offset = 0,
+        .duration = 100000,
+        .offset = 100000,
         .partition = &pok_partitions_arinc[1].base_part,
         .periodic_processing_start = TRUE,
         .id = 1
@@ -745,7 +745,7 @@ const pok_sched_slot_t pok_module_sched[2] = {
 
 const uint8_t pok_module_sched_n = 2;
 
-const pok_time_t pok_config_scheduling_major_frame = 30000000;
+const pok_time_t pok_config_scheduling_major_frame = 200000;
 
 /************************ Memory blocks ************************/
 #include <core/memblocks_config.h>
@@ -772,7 +772,7 @@ size_t jet_memory_blocks_n = 0;
 
 #include <arch/deployment.h>
 
-struct ja_armv7_space ja_spaces[1] =
+struct ja_armv7_space ja_spaces[2] =
 {
     {
         //.phys_base is filled upon initialization
@@ -781,6 +781,13 @@ struct ja_armv7_space ja_spaces[1] =
         // Currently stack size is hardcoded to 8K.
         .size_stack = 3 * 8 * 1024
     },
+    {
+           //.phys_base is filled upon initialization
+           .size_normal = 32768,
+           .size_heap = 13792,
+           // Currently stack size is hardcoded to 8K.
+           .size_stack = 3 * 8 * 1024
+       },
 };
 
-int ja_spaces_n = 1;
+int ja_spaces_n = 2;

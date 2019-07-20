@@ -10,6 +10,7 @@
 #include "../armv7/include/bsp/rti.h"
 
 extern void defaultint(void);
+extern void timer_int_wrapper(void);
 
 typedef volatile struct vimRam
 {
@@ -23,7 +24,7 @@ static const t_isrFuncPTR vim_table[128U] =
     &defaultint,
     &defaultint,          /* Channel 0   */
     &defaultint,          /* Channel 1   */
-    &ja_bsp_process_timer,          /* Channel 2   */
+    &timer_int_wrapper,          /* Channel 2   */
     &defaultint,          /* Channel 3   */
     &defaultint,          /* Channel 4   */
     &defaultint,          /* Channel 5   */

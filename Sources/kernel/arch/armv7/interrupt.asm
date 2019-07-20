@@ -85,12 +85,12 @@ _get_cspr_:
 	.ref pok_arch_sc_int
 ; Reset Vector, jump to init
 	b _c_int00
-	bl defaultint
-	b  pok_arch_sc_int
-	bl defaultint
-	bl defaultint
-	bl defaultint
-	bl defaultint
-	bl defaultint
+	b defaultint
+	b pok_arch_sc_int
+	b defaultint
+	b defaultint
+	b defaultint
+	b defaultint
+	b defaultint
 
 

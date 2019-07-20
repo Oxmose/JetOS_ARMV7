@@ -29,7 +29,7 @@
 /**
  * The rate of the clock in POK
  */
-#define POK_TIMER_FREQUENCY 10000
+#define POK_TIMER_FREQUENCY 1000
 
 /* Return current system time, in nanoseconds. */
 #define jet_system_time() ja_system_time()

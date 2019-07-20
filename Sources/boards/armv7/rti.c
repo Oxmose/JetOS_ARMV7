@@ -69,6 +69,11 @@ volatile uint32_t system_time_high;
 static time_t base_calendar_time = 1480330081; // On 28.11.2016
 
 
+void rti_eoi(void)
+{
+    rtiREG1->INTFLAG = rtiNOTIFICATION_COMPARE0;
+}
+
 /* USER CODE BEGIN (1) */
 /* USER CODE END */
 
@@ -402,10 +407,6 @@ time_t ja_calendar_time(void)
    return base_calendar_time + (time_t)(ja_system_time() / 1000000000);
 }
 
-
-#pragma CODE_STATE(ja_bsp_process_timer, 32)
-#pragma INTERRUPT(ja_bsp_process_timer, IRQ)
-
 void ja_bsp_process_timer(void)
 {
    /* Set EOI */
@@ -420,4 +421,6 @@ void ja_bsp_process_timer(void)
    system_time_low = system_time_low_new;
 
    jet_on_tick();
+
+   rti_eoi();
 }
