@@ -5,7 +5,7 @@ BUILD_DIR  = build
 INC_DIR    = armv7/includes
 BIN_DIR    = .
 
-MODULES  = arch/armv7
+MODULES  = arch/armv7 arinc653 core libc libm middleware protocols utils
 
 SRC_DIRS = $(MODULES:%=$(SRC_DIR)/%)
 OBJ_DIRS = $(MODULES:%=$(BUILD_DIR)/%)
@@ -25,18 +25,18 @@ CC = $(TI_ENV)/bin/armcl.exe
 CFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff -c      \
          --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
          --display_error_number --enum_type=packed --abi=eabi          \
-         --include_path="$(TI_ENV_WIN)/include"                        \
-         --include_path="arch/armv7/include"                                
+         --include_path="arch/armv7/include"                           \
+         --include_path="include"                                      
          
 ASFLAGS = $(CFLAGS)
         
 LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
           --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
            --display_error_number --enum_type=packed --abi=eabi -z      \
-           -m"JetOS.map" -i"$(TI_ENV)/lib" -i"$(TI_ENV)/include"        \
+           -m"JetOS.map"          \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="JetOS_linkInfo.xml"         \
-           --rom_model --be32 -o "JetOS.out" -llibc.a $(LINKER_FILE)
+           --rom_model --be32 -o "JetOS.out"  -llibc.a $(LINKER_FILE)
            
 .PHONY: all
 all: init libpok.a
