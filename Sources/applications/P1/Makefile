@@ -26,18 +26,17 @@ CC = $(TI_ENV)/bin/armcl.exe
 CFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff -c      \
          --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
          --display_error_number --enum_type=packed --abi=eabi          \
-         --include_path="$(TI_ENV_WIN)/include"                        \
-         --include_path="../libpok/include"                            
+         --include_path="../../libpok/include"                    
          
 ASFLAGS = $(CFLAGS)
         
 LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
           --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
            --display_error_number --enum_type=packed --abi=eabi -z      \
-           -m"JetOS.map" -i"$(TI_ENV_WIN)/lib" -i"$(TI_ENV_WIN)/include"        \
+           -m"JetOS.map" -i"$(TI_ENV_WIN)/lib"        \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="P1.xml"         \
-           --rom_model --be32 -llibc.a --entry_point=main -L../../kernel/kernel.a
+           --rom_model --be32 --entry_point=main -L../../libpok/libpok.a -llibc.a
            
 .PHONY: all
 all: init P1.elf

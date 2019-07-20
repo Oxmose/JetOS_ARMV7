@@ -5,7 +5,7 @@ BUILD_DIR  = build
 INC_DIR    = armv7/includes
 BIN_DIR    = .
 
-MODULES  = arch/armv7 arinc653 core libc libm middleware protocols utils
+MODULES  = arch/armv7 arinc653 core libc libm middleware protocols utils libc/ctype libc/misc libc/stdio lib/stdlib libc/string libc/time
 
 SRC_DIRS = $(MODULES:%=$(SRC_DIR)/%)
 OBJ_DIRS = $(MODULES:%=$(BUILD_DIR)/%)

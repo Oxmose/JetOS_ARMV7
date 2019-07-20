@@ -62,6 +62,7 @@ SECTIONS
 {
 	S_RAM
     /* Rest of code to user mode flash region */
+    .shared_code align(32) : {} > URAM
     .text        align(32) : {} > URAM
     .const       align(32) : {} > URAM
     .cinit                 : {} > URAM

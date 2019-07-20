@@ -262,14 +262,14 @@ void ja_space_init(void)
             else
             {
                 /* Disable sub regions that are not needed */
-                space->mpu_size[j] |= (0xFF << (sub_reg_count + 8)) & 0xFF00;
+                /* TODO: There seem to be a problem with the subregion deactivation */
+                //space->mpu_size[j] |= (~(0xFF00 << sub_reg_count)) & 0xFF00;
             }
         }
         space->mpu_reg  = reg_count;
         space->mpu_type = MPU_NORMAL_OIWBWA_NONSHARED;
         space->mpu_perm = MPU_PRIV_RW_USER_RW_EXEC;
 
-        /* TODO: Output position of partitions */
         printf("Create partition space: 0x%x -> 0x%x\n\r", space->phys_base, phys_base_end);
     }
 
@@ -309,6 +309,8 @@ void __user* ja_space_get_heap(jet_space_id space_id)
 
 static jet_space_id current_space_id = 0;
 
+
+
 void ja_space_switch (jet_space_id space_id)
 {
     uint32_t i;
@@ -328,6 +330,8 @@ void ja_space_switch (jet_space_id space_id)
             _mpuSetRegionBaseAddress_(ja_spaces[space_id - 1].mpu_base[i]);
             _mpuSetRegionTypeAndPermission_(ja_spaces[space_id - 1].mpu_type, ja_spaces[space_id - 1].mpu_perm);
             _mpuSetRegionSizeRegister_(ja_spaces[space_id - 1].mpu_size[i]);
+
+            printf("Set partition space: 0x%x -> 0x%x\n\r", ja_spaces[space_id - 1].mpu_base[i], ja_spaces[space_id - 1].mpu_base[i] + ja_spaces[space_id - 1].mpu_size[i]);
         }
     }
 
@@ -359,7 +363,7 @@ jet_ustack_t ja_ustack_alloc (jet_space_id space_id, size_t stack_size)
 
         space->size_stack_used = size_stack_new;
 
-        return result;
+        return result - 32;
     }
     return NULL;
 }

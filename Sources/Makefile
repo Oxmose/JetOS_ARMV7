@@ -30,7 +30,7 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="JetOS_linkInfo.xml"         \
            -i"./boards/" -i"./kernel/" -i"./libpok/"      \
-           -llibpok.a -lkernel.a -lboards.a                   \
+           -lkernel.a -lboards.a                   \
            --rom_model --be32 -o "JetOS.out" -llibc.a 
            
 .PHONY: all

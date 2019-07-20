@@ -109,17 +109,25 @@ ja_context_switch:
     .def timer_int_wrapper
     .asmfunc
 timer_int_wrapper:
-    ;PUSH      {r0-r12}
-    ;PUSH      {lr}
-    ;MRS       r0, SPSR
-    ;PUSH      {r0}
+    sub	lr, lr, #4
+	srsfd	sp!, #0x13
 
+	cps	#0x13
+	push	{r0-r3, r12}
 
+	mov	r1, sp
+	and	r1, r1, #4
+	sub	sp, sp, r1
+	push	{r1, lr}
 
-	;POP {r0}
-	;MSR r0, SPSR_cxsf
-    ;POP {r0-r12}
-	;POP {pc}^
+	bl ja_bsp_process_timer
+
+	pop	{r1, lr}
+	add	sp, sp, r1
+
+	pop	{r0-r3, r12}
+
+	rfefd	sp!
 
 	;STMIA   r13, {r0 - r14}^        ; Dump user registers above r13.
 
@@ -127,20 +135,20 @@ timer_int_wrapper:
     ;STMDB   r13, {r0, lr}           ; and dump with return address below.
 
 	; Switch to supervisor mode
-	CPS     #0x13
+;	CPS     #0x13
 	;STMIA   r13, {r12 - r13}        ; Dump user registers above r13.
 
-    bl ja_bsp_process_timer
+
 
     ;LDMNEIA r13, {r12 - r13}        ; Get the rest of the registers
 
     ; Switch to IRQ mode
-    CPS     #0x12
+;    CPS     #0x12
 
     ;MSRNE   SPSR_cxsf, r0           ; Restore the status.
     ;LDMNEIA r13, {r0 - r14}^        ; Get the rest of the registers
     ;NOP
 
-    SUBNES  pc, lr, #4              ; and return and restore CPSR.
+    ;SUBNES  pc, lr, #4              ; and return and restore CPSR.
 
 	.endasmfunc
