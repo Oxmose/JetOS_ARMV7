@@ -27,11 +27,11 @@
 
 #pragma DATA_SECTION(__pok_end, ".sysheap")
 static char __pok_end;
+static char *heap_end = &__pok_end;
 
 void *ja_mem_alloc_aligned (size_t size, unsigned int alignment)
 {
   char *res;
-  char *heap_end = &__pok_end;
 
   res = (char *)(ALIGN_VAL((unsigned int)heap_end, alignment));
   heap_end = res + size;

@@ -131,6 +131,7 @@ _init_cpu_arch:
 	.asmfunc
 __asm_barier__:
 	dmb
+	bx lr
 
 	.endasmfunc
 

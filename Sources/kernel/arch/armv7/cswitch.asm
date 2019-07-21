@@ -42,6 +42,8 @@ context_restore:
 	; Restore lr
 	ldr pc, [r0, #56]
 
+
+
     .endasmfunc
 
 	; Restore context r0=sp r1 = entry
@@ -69,38 +71,25 @@ ja_kernel_thread:
     .asmfunc
 
 ja_context_restart_and_save:
-	str sp, [r2]
+	;str sp, [r2]
 	b ja_context_restart
 	.endasmfunc
 
 	.def ja_context_switch
     .asmfunc
 ja_context_switch:
+	; R0: Pointer of pointer to old stack
+	; R1: Pointer to new stack
 
-	bx lr
+	; Save current context
+	stmfd sp, {r0-r13,lr}
+	sub sp, sp, #60
 
-	PUSH {r1}
-	ldr  r1, [r0, #0]
+	; Update old stack pointer
+	str sp, [r0, #0]
 
-	; Save registers
-	STMFD      r1,{R0-lr}
-	sub        r1, r1, #60
-	MRS        r3, CPSR
-    STMFD      r1, {r3}
-    sub        r1, r1, #4
-    str        r1, [r0, #0]
-
-    POP  {r1}
-
-    ; Restore registers
-    sub        r1, r1, #64
-    LDMFD  	   r1, {r0}
-    add        r1, r1, #4
-    MSRNE      CPSR, r0
-
-	LDMFD      r1, {R0 - lr}
-    SUBSNE     pc, lr, #0
-
+	; Restore new context
+	ldmfd r1, {r0-r13,pc}
     .endasmfunc
 
 
@@ -113,7 +102,10 @@ timer_int_wrapper:
 	srsfd	sp!, #0x13
 
 	cps	#0x13
-	push	{r0-r3, r12}
+	stmfd  r13, {r13,r14}^
+	nop
+	sub r13, r13, #8
+	push	{r0-r12}
 
 	mov	r1, sp
 	and	r1, r1, #4
@@ -125,7 +117,9 @@ timer_int_wrapper:
 	pop	{r1, lr}
 	add	sp, sp, r1
 
-	pop	{r0-r3, r12}
+	pop	{r0-r12}
+	ldmfd r13, {r13, r14}^
+	add r13, r13, #8
 
 	rfefd	sp!
 

@@ -79,7 +79,7 @@ _get_cspr_:
 	 .endasmfunc
 
 
-
+	.ref pok_arch_sc_int
 	.def pok_arch_sc_wrapper
 	.asmfunc
 pok_arch_sc_wrapper:
@@ -97,7 +97,6 @@ pok_arch_sc_wrapper:
     .arm
 
 	.ref _c_int00
-	.ref pok_arch_sc_int
 ; Reset Vector, jump to init
 	b _c_int00
 	b defaultint

@@ -43,14 +43,6 @@
 
 MEMORY
 {
-	/* Interrupt vector */
-    VECTORS (X)  : origin=0x00000000 length=0x00000020
-    FLASH   (RX) : origin=0x00000020 length=0x000FFFE0
-    S_FLASH (RX) : origin=0x00100000 length=0x00100000
-    ELF_STR (R)  : origin=0x00200000 length=0x00200000
-    STACKS  (RW) : origin=0x08000000 length=0x00004000
-    HEAP    (RW) : origin=0x08004000 length=0x00004000
-    KRAM    (RW) : origin=0x08008000 length=0x00010000
     S_RAM   (RW) : origin=0x08018000 length=0x00001000 /* Don't forget to adapt! */
     URAM    (RW) : origin=0x0803C000 length=0x00011000 /* Don't forget to adapt! */
 }

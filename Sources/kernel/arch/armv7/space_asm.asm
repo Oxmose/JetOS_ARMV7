@@ -15,10 +15,10 @@ ja_user_space_jump:
 	mov sp, r0
 
 	; Switch space
-	mov r0, r1
-	push {r2,r3}
-	bl ja_space_switch
-	pop {r2,r3}
+;	mov r0, r1
+;	push {r2,r3}
+;	bl ja_space_switch
+;	pop {r2,r3}
 	; Swith to user mode
 	cpsie if
 	cps #0x10

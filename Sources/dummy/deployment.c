@@ -639,7 +639,7 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
             .multi_partition_hm_table = &pok_hm_multi_partition_table_default,
         },
 
-        .nthreads = 3,
+        .nthreads = 1,
         .threads = partition_threads_0,
 
         .main_user_stack_size = 8192, 
@@ -665,16 +665,16 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
 
                 .period = 2000000000,
                 .duration = 1000000000,
-                .partition_id = 0,
+                .partition_id = 1,
 
-                .space_id = 1,
+                .space_id = 2,
 
                 .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
                 .multi_partition_hm_table = &pok_hm_multi_partition_table_default,
             },
 
-            .nthreads = 3,
-            .threads = partition_threads_0,
+            .nthreads = 1,
+            .threads = partition_threads_1,
 
             .main_user_stack_size = 8192,
             .heap_size = 13792,
@@ -737,7 +737,7 @@ const pok_sched_slot_t pok_module_sched[2] = {
     {
         .duration = 1000000000,
         .offset = 1000000000,
-        .partition = &pok_partitions_arinc[01].base_part,
+        .partition = &pok_partitions_arinc[1].base_part,
         .periodic_processing_start = TRUE,
         .id = 1
     }
@@ -772,7 +772,7 @@ size_t jet_memory_blocks_n = 0;
 
 #include <arch/deployment.h>
 
-struct ja_armv7_space ja_spaces[1] =
+struct ja_armv7_space ja_spaces[2] =
 {
     {
         //.phys_base is filled upon initialization
@@ -780,7 +780,14 @@ struct ja_armv7_space ja_spaces[1] =
         .size_heap = 13792,
         // Currently stack size is hardcoded to 8K.
         .size_stack = 3 * 8 * 1024
-    }
+    },
+    {
+            //.phys_base is filled upon initialization
+            .size_normal = 102400,
+            .size_heap = 13792,
+            // Currently stack size is hardcoded to 8K.
+            .size_stack = 3 * 8 * 1024
+        },
 };
 
-int ja_spaces_n = 1;
+int ja_spaces_n = 2;

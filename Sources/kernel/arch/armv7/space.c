@@ -330,8 +330,6 @@ void ja_space_switch (jet_space_id space_id)
             _mpuSetRegionBaseAddress_(ja_spaces[space_id - 1].mpu_base[i]);
             _mpuSetRegionTypeAndPermission_(ja_spaces[space_id - 1].mpu_type, ja_spaces[space_id - 1].mpu_perm);
             _mpuSetRegionSizeRegister_(ja_spaces[space_id - 1].mpu_size[i]);
-
-            printf("Set partition space: 0x%x -> 0x%x\n\r", ja_spaces[space_id - 1].mpu_base[i], ja_spaces[space_id - 1].mpu_base[i] + ja_spaces[space_id - 1].mpu_size[i]);
         }
     }
 

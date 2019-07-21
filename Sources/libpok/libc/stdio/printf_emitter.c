@@ -34,6 +34,7 @@ static void print_num(emit_character_t emit_character,
                       int neg,
                       int pad_with_zero)
 {
+    while(1);
     unsigned char digit_str[32]; //64-bit number in octal base is 32 digits long
     int size = 0;
     do {

@@ -10,6 +10,7 @@
 	.asmfunc
 lja_do_syscall:
 	swi #42
+	bx lr
 	.endasmfunc
 
 

@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-void main(void) {
+void main(void) {;
+#if 1
     volatile int i, j, m;
-    char str[20] = "Hello P1\0";
+    char str[20] = "Hello P2\0";
     while(1)
     {
         /*
@@ -25,5 +26,5 @@ void main(void) {
         for(j = 0; j < 10000000; ++j);
 
     }
-
-}  
+#endif
+}

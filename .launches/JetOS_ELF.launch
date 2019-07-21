@@ -16,7 +16,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.C:\Users\Alexy\Documents\HALCoGen\JetOS_Make\targetConfigs\TMS570LC43xx.ccxml.Texas Instruments XDS110 USB Debug Probe/CortexR5" value="C:\Users\Alexy\Documents\HALCoGen\JetOS_Make\Sources\JetOS.out"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.C:\Users\Alexy\Documents\HALCoGen\JetOS_Make\targetConfigs\TMS570LC43xx.ccxml.Texas Instruments XDS110 USB Debug Probe/CortexR5" value="JetOS_Make"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:JetOS_Make}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.C:\Users\Alexy\Documents\HALCoGen\JetOS_Make\targetConfigs\TMS570LC43xx.ccxml.Texas Instruments XDS110 USB Debug Probe/CortexR5" value="C:/Users\Alexy\Documents\HALCoGen\JetOS_Make\Sources\JetOS.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.C:\Users\Alexy\Documents\HALCoGen\JetOS_Make\targetConfigs\TMS570LC43xx.ccxml.Texas Instruments XDS110 USB Debug Probe/CortexR5" value="C:/Users\Alexy\Documents\HALCoGen\JetOS_Make\Sources\applications\P1\P1.elf"/>
 <mapAttribute key="com.ti.ccstudio.debug.ui.displayFormats">
 <mapEntry key="Texas Instruments XDS110 USB Debug Probe/CortexR5@##separator##@0" value="32-Bit Hex - TI Style"/>
 </mapAttribute>
