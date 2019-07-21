@@ -33,9 +33,9 @@ ASFLAGS = $(CFLAGS)
 LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
           --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
            --display_error_number --enum_type=packed --abi=eabi -z      \
-           -m"JetOS.map" -i"$(TI_ENV_WIN)/lib"        \
+           -m"Partition.map" -i"$(TI_ENV_WIN)/lib"        \
            --reread_libs --diag_wrap=off --display_error_number         \
-           --warn_sections --xml_link_info="P1.xml"         \
+           --warn_sections --xml_link_info="Partition.xml"         \
            --rom_model --be32 -l../../libpok/libpok.a -llibc.a
            
 .PHONY: all
@@ -70,6 +70,7 @@ $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.asm
 
 clean:
 	$(RM) -rf $(BIN_DIR)/boards.a $(BUILD_DIR)
+	$(RM) -rf *.map *.xml *.elf *.bin
 
 	@echo "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
 	@echo

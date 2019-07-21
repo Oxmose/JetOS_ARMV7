@@ -120,8 +120,7 @@ timer_int_wrapper:
 	sub	sp, sp, r1
 	push	{r1, lr}
 
-	;bl ja_bsp_process_timer
-	bl rti_eoi
+	bl ja_bsp_process_timer
 
 	pop	{r1, lr}
 	add	sp, sp, r1
@@ -129,27 +128,5 @@ timer_int_wrapper:
 	pop	{r0-r3, r12}
 
 	rfefd	sp!
-
-	;STMIA   r13, {r0 - r14}^        ; Dump user registers above r13.
-
-	;MRS     r0, SPSR                ; Pick up the user status
-    ;STMDB   r13, {r0, lr}           ; and dump with return address below.
-
-	; Switch to supervisor mode
-;	CPS     #0x13
-	;STMIA   r13, {r12 - r13}        ; Dump user registers above r13.
-
-
-
-    ;LDMNEIA r13, {r12 - r13}        ; Get the rest of the registers
-
-    ; Switch to IRQ mode
-;    CPS     #0x12
-
-    ;MSRNE   SPSR_cxsf, r0           ; Restore the status.
-    ;LDMNEIA r13, {r0 - r14}^        ; Get the rest of the registers
-    ;NOP
-
-    ;SUBNES  pc, lr, #4              ; and return and restore CPSR.
 
 	.endasmfunc

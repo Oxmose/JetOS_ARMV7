@@ -36,10 +36,12 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
 all: init pok.elf
 
 init:
+	$(MAKE) -C libpok
+	$(MAKE) -C applications
 	$(MAKE) -C boards
 	$(MAKE) -C dummy
 	$(MAKE) -C kernel
-	$(MAKE) -C libpok
+	
 
 # kernel generation
 pok.elf: 
@@ -50,9 +52,11 @@ pok.elf:
 
 
 clean:
+	$(MAKE) clean -C libpok
+	$(MAKE) clean -C applications
 	$(MAKE) clean -C boards
 	$(MAKE) clean -C dummy
 	$(MAKE) clean -C kernel
-	$(MAKE) clean -C libpok
-	$(RM) -rf pok.elf
+	
+	$(RM) -rf *.map *.xml *.out
 	

@@ -409,9 +409,6 @@ time_t ja_calendar_time(void)
 
 void ja_bsp_process_timer(void)
 {
-   /* Set EOI */
-   rtiREG1->INTFLAG = 1U;
-
    uint32_t system_time_low_new = system_time_low + (1000000000 / POK_TIMER_FREQUENCY);
    if(system_time_low_new < (1000000000 / POK_TIMER_FREQUENCY)) {
       // Overflow of low part.

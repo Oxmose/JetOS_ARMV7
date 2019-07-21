@@ -629,7 +629,7 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
             // Allocate 1 event slot per queuing port plus 2 slots for timer.
             .partition_event_max = 1 + 2,
 
-            .period = 1000000000,
+            .period = 2000000000,
             .duration = 1000000000,
             .partition_id = 0,
 
@@ -655,7 +655,41 @@ pok_partition_arinc_t pok_partitions_arinc[2] = {
         .thread_error_info = &partition_thread_error_info_0,
 
         .partition_hm_table = &partition_hm_table_0,
-    }
+    },
+    {
+            .base_part = {
+                .name = "P2",
+
+                // Allocate 1 event slot per queuing port plus 2 slots for timer.
+                .partition_event_max = 1 + 2,
+
+                .period = 2000000000,
+                .duration = 1000000000,
+                .partition_id = 0,
+
+                .space_id = 1,
+
+                .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
+                .multi_partition_hm_table = &pok_hm_multi_partition_table_default,
+            },
+
+            .nthreads = 3,
+            .threads = partition_threads_0,
+
+            .main_user_stack_size = 8192,
+            .heap_size = 13792,
+
+            .ports_queuing = partition_ports_queuing_0,
+            .nports_queuing = 1,
+
+            .ports_sampling = partition_ports_sampling_0,
+            .nports_sampling = 0,
+            .partition_hm_selector = &partition_hm_selector_0,
+
+            .thread_error_info = &partition_thread_error_info_0,
+
+            .partition_hm_table = &partition_hm_table_0,
+        }
 };
 
 const uint8_t pok_partitions_arinc_n = 2;
@@ -668,7 +702,7 @@ pok_partition_t partition_monitor =
 
     .partition_event_max = 0,
 
-    .period = 1000000000,
+    .period = 2000000000,
     .space_id = 0,
 
     .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
@@ -699,12 +733,19 @@ const pok_sched_slot_t pok_module_sched[2] = {
         .partition = &pok_partitions_arinc[0].base_part,
         .periodic_processing_start = TRUE,
         .id = 0
+    },
+    {
+        .duration = 1000000000,
+        .offset = 1000000000,
+        .partition = &pok_partitions_arinc[01].base_part,
+        .periodic_processing_start = TRUE,
+        .id = 1
     }
 };
 
-const uint8_t pok_module_sched_n = 1;
+const uint8_t pok_module_sched_n = 2;
 
-const pok_time_t pok_config_scheduling_major_frame = 1000000000;
+const pok_time_t pok_config_scheduling_major_frame = 2000000000;
 
 /************************ Memory blocks ************************/
 #include <core/memblocks_config.h>
