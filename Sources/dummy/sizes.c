@@ -1,4 +1,4 @@
-#include <types.h>
-uint32_t pok_elf_sizes[] = {
+
+unsigned int pok_elf_sizes[] = {
                             84452,
 };

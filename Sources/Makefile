@@ -18,7 +18,6 @@ CC = $(TI_ENV)/bin/armcl.exe
 CFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff -c      \
          --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
          --display_error_number --enum_type=packed --abi=eabi          \
-         --include_path="$(TI_ENV_WIN)/include"                        \
          --include_path="../kernel/arch/armv7/include"                 \
          --include_path="../kernel/include"                            \
          --include_path="../libpok/arch/armv7/include" 
@@ -26,7 +25,7 @@ CFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff -c      \
 LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
           --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
            --display_error_number --enum_type=packed --abi=eabi -z      \
-           -m"JetOS.map" -i"$(TI_ENV_WIN)/lib" -i"$(TI_ENV_WIN)/include"\
+           -m"JetOS.map" -i"$(TI_ENV_WIN)/lib" \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="JetOS_linkInfo.xml"         \
            -i"./boards/" -i"./kernel/" -i"./libpok/"      \
