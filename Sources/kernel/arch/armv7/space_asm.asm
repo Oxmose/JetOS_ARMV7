@@ -20,7 +20,7 @@ ja_user_space_jump:
 	bl ja_space_switch
 	pop {r2,r3}
 	; Swith to user mode
-	;cpsie if
+	cpsie if
 	cps #0x10
 
 	; Set user SP

@@ -120,7 +120,8 @@ timer_int_wrapper:
 	sub	sp, sp, r1
 	push	{r1, lr}
 
-	bl ja_bsp_process_timer
+	;bl ja_bsp_process_timer
+	bl rti_eoi
 
 	pop	{r1, lr}
 	add	sp, sp, r1
