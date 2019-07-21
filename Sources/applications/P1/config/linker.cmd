@@ -65,9 +65,10 @@ SECTIONS
     .shared_code align(32) : {} > URAM
     .text        align(32) : {} > URAM
     .const       align(32) : {} > URAM
-    .cinit                 : {} > URAM
-    .bss          : {} > URAM
-    .data         : {} > URAM
+    .data        align(32) : {} > URAM
+    .bss         align(32) : {} > URAM
+    .cinit       align(32) : {} > URAM
+
 }
 
 /*----------------------------------------------------------------------------*/

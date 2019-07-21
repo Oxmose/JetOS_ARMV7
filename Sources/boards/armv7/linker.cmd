@@ -66,6 +66,8 @@ SECTIONS
     /* Rest of code to user mode flash region */
     .text        align(32) : {} > FLASH
     .const       align(32) : {} > FLASH
+    .data        align(32) : {} > KRAM
+    .bss         align(32) : {} > KRAM
     .cinit                 : {} > FLASH
     .shared_code align(32) : {} > S_FLASH
     /* Store elf here */
@@ -73,8 +75,8 @@ SECTIONS
     /* Stack and heap in dedicated space */
     .stacks      align(32) : {} > STACKS
     .sysheap     align(32) : {} > HEAP
-    .bss          : {} > KRAM
-    .data         : {} > KRAM
+
+
 }
 
 /*----------------------------------------------------------------------------*/

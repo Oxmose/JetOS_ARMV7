@@ -28,7 +28,7 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
            -m"JetOS.map" -i"$(TI_ENV_WIN)/lib" \
            --reread_libs --diag_wrap=off --display_error_number         \
            --warn_sections --xml_link_info="JetOS_linkInfo.xml"         \
-           -i"./boards/" -i"./kernel/" -i"./libpok/"      \
+           -i"./boards/" -i"./kernel/"     \
            -lkernel.a -lboards.a                   \
            --rom_model --be32 -o "JetOS.out" -llibc.a 
            
