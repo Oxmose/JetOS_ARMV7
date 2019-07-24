@@ -15,7 +15,7 @@ A_SRCS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.asm))
 C_OBJS = $(C_SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.obj)
 A_OBJS = $(A_SRCS:$(SRC_DIR)/%.asm=$(BUILD_DIR)/%.obj)
 
-LINKER_FILE = $(SRC_DIR)/linker.cmd
+LINKER_FILE = ../config/linker.cmd
 
 AS = $(TI_ENV)/bin/armcl.exe
 LD = $(TI_ENV)/bin/armlnk.exe

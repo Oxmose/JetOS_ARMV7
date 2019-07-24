@@ -6,7 +6,7 @@ BIN_DIR    = .
 
 MODULES  = boards kernel libpok config
 
-LINKER_FILE = ./boards/armv7/linker.cmd
+LINKER_FILE = ./config/linker.cmd
 
 SRC_DIRS = config/
 C_OBJS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/build/*.obj))
