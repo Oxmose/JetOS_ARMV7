@@ -110,7 +110,7 @@ int main()
     th_attr_gen.PERIOD        = 2000000000;
     th_attr_gen.STACK_SIZE    = 1024;
     th_attr_gen.TIME_CAPACITY = 2000000000;
-    th_attr_gen.BASE_PRIORITY = 1;
+    th_attr_gen.BASE_PRIORITY = 2;
     memcpy(th_attr_gen.NAME, "TH_GEN_P1\0", 10 * sizeof(char));
 
     th_attr_com.ENTRY_POINT   = th_com_routine;
@@ -118,7 +118,7 @@ int main()
     th_attr_com.PERIOD        = 2000000000;
     th_attr_com.STACK_SIZE    = 1024;
     th_attr_com.TIME_CAPACITY = 2000000000;
-    th_attr_com.BASE_PRIORITY = 2;
+    th_attr_com.BASE_PRIORITY = 1;
     memcpy(th_attr_com.NAME, "TH_COM_P1\0", 10 * sizeof(char));
 
     printf("Init P1 partition\n\r");

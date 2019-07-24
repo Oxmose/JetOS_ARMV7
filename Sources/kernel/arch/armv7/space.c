@@ -203,8 +203,8 @@ void ja_space_init(void)
         /* Heap should be aligned on 4 */
         size_total = ALIGN_VAL(size_total, 4) + space->size_stack;
 
-        /* We need 8K alignement */
-        size_total = ALIGN_VAL(size_total, 8192);
+        /* We need 32K alignement */
+        size_total = ALIGN_VAL(size_total, 0x8000);
         printf("Partition size 0x%x\n\r", size_total);
 
         /* Get the number of MPU regions */
@@ -243,8 +243,7 @@ void ja_space_init(void)
             else
             {
                 /* Disable sub regions that are not needed */
-                /* TODO: There seem to be a problem with the subregion deactivation */
-                //space->mpu_size[j] |= (~(0xFF00 << sub_reg_count)) & 0xFF00;
+                space->mpu_size[j] |= (~(0xFF00 << sub_reg_count)) & 0xFF00;
             }
         }
         space->mpu_reg  = reg_count;
