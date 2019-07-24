@@ -168,7 +168,7 @@ void ja_space_init(void)
         mpu_set_region(i, 0x00000000, MPU_4_GB | mpuREGION_DISABLE | mpuSUBREGION_DISABLE,
                      MPU_NORMAL_OINC_NONSHARED, MPU_PRIV_NA_USER_NA_NOEXEC);
     }
-#if 1
+
     /* Set the kernel flash region */
     mpu_set_region(mpuREGION2, 0x00000000, MPU_4_MB | mpuREGION_ENABLE,
                      MPU_NORMAL_OIWTNOWA_SHARED, MPU_PRIV_RO_USER_NA_EXEC);
@@ -183,26 +183,7 @@ void ja_space_init(void)
     /* Set the shared section */
     mpu_set_region(mpuREGION5, 0x00100000, MPU_1_MB | mpuREGION_ENABLE,
                    MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RO_USER_RO_EXEC);
-#else
 
-    /* Set the kernel flash region */
-        mpu_set_region(mpuREGION2, 0x00000000, MPU_4_MB | mpuREGION_ENABLE,
-                         MPU_NORMAL_OIWTNOWA_SHARED, MPU_PRIV_RO_USER_RO_EXEC);
-        /* Set the kernel ram region */
-        mpu_set_region(mpuREGION3, 0x08000000, MPU_256_KB | mpuREGION_ENABLE,
-                         MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RW_USER_RW_NOEXEC);
-        /* Set the kernel ram ecc region */
-        mpu_set_region(mpuREGION4, 0x08400000, MPU_256_KB | mpuREGION_ENABLE,
-                     MPU_NORMAL_OINC_NONSHARED, MPU_PRIV_RW_USER_RW_NOEXEC);
-        /* Set the kernel peripheral region */
-        mpu_set_region(mpuREGION5, 0xF8000000, MPU_128_MB |
-                     mpuREGION_ENABLE | mpuSUBREGION0_DISABLE |
-                     mpuSUBREGION1_DISABLE | mpuSUBREGION2_DISABLE,
-                     MPU_DEVICE_NONSHAREABLE, MPU_PRIV_RW_USER_RW_NOEXEC);
-        /* Set the shared section */
-        mpu_set_region(mpuREGION6, 0x00200000, MPU_1_MB | mpuREGION_ENABLE,
-                       MPU_NORMAL_OIWBWA_NONSHARED, MPU_PRIV_RO_USER_RO_EXEC);
-#endif
     /* Init all spaces */
     for(i = 0; i < ja_spaces_n; i++)
     {
@@ -227,13 +208,13 @@ void ja_space_init(void)
         printf("Partition size 0x%x\n\r", size_total);
 
         /* Get the number of MPU regions */
-        reg_count = size_total / 65536;
-        if(size_total % 65536 != 0)
+        reg_count = size_total / 0x8000;
+        if(size_total % 0x8000 != 0)
         {
             ++reg_count;
         }
         /* Get the number of sub region we need */
-        sub_reg_count = size_total / 8192;
+        sub_reg_count = size_total / 4096;
         printf("Partition regions: %d | Sub regions:  %d\n\r", reg_count, sub_reg_count);
         if(reg_count > 11)
         {
@@ -253,8 +234,8 @@ void ja_space_init(void)
         /** Add MPU entry context */
         for(j = 0; j < reg_count; ++j)
         {
-            space->mpu_size[j] = MPU_64_KB | mpuREGION_ENABLE;
-            space->mpu_base[j] = 1024 * 64 * j + space->phys_base;
+            space->mpu_size[j] = MPU_32_KB | mpuREGION_ENABLE;
+            space->mpu_base[j] = 1024 * 32 * j + space->phys_base;
             if(sub_reg_count >= 8)
             {
                 sub_reg_count -= 8;

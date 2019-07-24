@@ -193,15 +193,15 @@ pok_error_module_action_table_t pok_hm_module_table = {
 /**************** Setup queuing channels ****************************/
 pok_channel_queuing_t pok_channels_queuing[1] = {
     {
-        .max_message_size = 64,
+        .max_message_size = 4,
 
         .recv = {
-            .max_nb_message = 10,
-            .part = &pok_partitions_arinc[0].base_part,
+            .max_nb_message = 20,
+            .part = &pok_partitions_arinc[1].base_part,
         },
         .send = {
-            .max_nb_message = 10,
-            .part = &pok_partitions_arinc[1].base_part,
+            .max_nb_message = 20,
+            .part = &pok_partitions_arinc[0].base_part,
         },
 
         // Currently hardcoded.
@@ -403,14 +403,14 @@ static const pok_error_hm_partition_t partition_hm_table_0 = {
 };
 
 // Threads array
-static pok_thread_t partition_threads_0[1 + 1 /*main thread*/ + 1 /* error thread */];
+static pok_thread_t partition_threads_0[2 + 1 /*main thread*/ + 1 /* error thread */];
 
 // Queuing ports
 static pok_port_queuing_t partition_ports_queuing_0[1] = {
     {
-        .name = "QP1",
+        .name = "P1_P2_SEND_PORT",
         .channel = &pok_channels_queuing[0],
-        .direction = POK_PORT_DIRECTION_IN,
+        .direction = POK_PORT_DIRECTION_OUT,
     },
 };
 
@@ -604,14 +604,14 @@ static const pok_error_hm_partition_t partition_hm_table_1 = {
 };
 
 // Threads array
-static pok_thread_t partition_threads_1[2 + 1 /*main thread*/ + 1 /* error thread */];
+static pok_thread_t partition_threads_1[1 + 1 /*main thread*/ + 1 /* error thread */];
 
 // Queuing ports
 static pok_port_queuing_t partition_ports_queuing_1[1] = {
     {
-        .name = "QP2",
+        .name = "P1_P2_RECV_PORT",
         .channel = &pok_channels_queuing[0],
-        .direction = POK_PORT_DIRECTION_OUT,
+        .direction = POK_PORT_DIRECTION_IN,
     },
 };
 
@@ -621,7 +621,7 @@ static pok_port_sampling_t partition_ports_sampling_1[0] = {
 
 
 /*************** Setup partitions array *******************************/
-pok_partition_arinc_t pok_partitions_arinc[1] = {
+pok_partition_arinc_t pok_partitions_arinc[2] = {
     {
         .base_part = {
             .name = "P1",
@@ -629,7 +629,7 @@ pok_partition_arinc_t pok_partitions_arinc[1] = {
             // Allocate 1 event slot per queuing port plus 2 slots for timer.
             .partition_event_max = 1 + 2,
 
-            .period = 1000000000,
+            .period = 2000000000,
             .duration = 1000000000,
             .partition_id = 0,
 
@@ -639,10 +639,10 @@ pok_partition_arinc_t pok_partitions_arinc[1] = {
             .multi_partition_hm_table = &pok_hm_multi_partition_table_default,
         },
 
-        .nthreads = 3,
+        .nthreads = 4,
         .threads = partition_threads_0,
 
-        .main_user_stack_size = 4096,
+        .main_user_stack_size = 8192,
         .heap_size = 8192,
 
         .ports_queuing = partition_ports_queuing_0,
@@ -656,9 +656,43 @@ pok_partition_arinc_t pok_partitions_arinc[1] = {
 
         .partition_hm_table = &partition_hm_table_0,
     },
+    {
+        .base_part = {
+            .name = "P2",
+
+            // Allocate 1 event slot per queuing port plus 2 slots for timer.
+            .partition_event_max = 1 + 2,
+
+            .period = 2000000000,
+            .duration = 1000000000,
+            .partition_id = 1,
+
+            .space_id = 2,
+
+            .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
+            .multi_partition_hm_table = &pok_hm_multi_partition_table_default,
+        },
+
+        .nthreads = 3,
+        .threads = partition_threads_1,
+
+        .main_user_stack_size = 8192,
+        .heap_size = 8192,
+
+        .ports_queuing = partition_ports_queuing_1,
+        .nports_queuing = 1,
+
+        .ports_sampling = partition_ports_sampling_1,
+        .nports_sampling = 0,
+        .partition_hm_selector = &partition_hm_selector_1,
+
+        .thread_error_info = &partition_thread_error_info_1,
+
+        .partition_hm_table = &partition_hm_table_1,
+    },
 };
 
-const uint8_t pok_partitions_arinc_n = 1;
+const uint8_t pok_partitions_arinc_n = 2;
 
 #ifdef POK_NEEDS_MONITOR
 /**************************** Monitor *********************************/
@@ -668,7 +702,7 @@ pok_partition_t partition_monitor =
 
     .partition_event_max = 0,
 
-    .period = 1000000000,
+    .period = 2000000000,
     .space_id = 0,
 
     .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
@@ -683,7 +717,7 @@ pok_partition_t partition_gdb =
 
     .partition_event_max = 0,
 
-    .period = 1000000000,
+    .period = 2000000000,
     .space_id = 0,
 
     .multi_partition_hm_selector = &pok_hm_multi_partition_selector_default,
@@ -692,19 +726,26 @@ pok_partition_t partition_gdb =
 #endif /* POK_NEEDS_GDB*/
 
 /************************* Setup time slots ***************************/
-const pok_sched_slot_t pok_module_sched[1] = {
+const pok_sched_slot_t pok_module_sched[2] = {
     {
         .duration = 1000000000,
         .offset = 0,
         .partition = &pok_partitions_arinc[0].base_part,
         .periodic_processing_start = TRUE,
         .id = 0
-    }
+    },
+    {
+        .duration = 1000000000,
+        .offset = 0,
+        .partition = &pok_partitions_arinc[1].base_part,
+        .periodic_processing_start = TRUE,
+        .id = 1
+    },
 };
 
-const uint8_t pok_module_sched_n = 1;
+const uint8_t pok_module_sched_n = 2;
 
-const pok_time_t pok_config_scheduling_major_frame = 1000000000;
+const pok_time_t pok_config_scheduling_major_frame = 2000000000;
 
 /************************ Memory blocks ************************/
 #include <core/memblocks_config.h>
@@ -731,15 +772,22 @@ size_t jet_memory_blocks_n = 0;
 
 #include <arch/deployment.h>
 
-struct ja_armv7_space ja_spaces[1] =
+struct ja_armv7_space ja_spaces[2] =
 {
     {
         //.phys_base is filled upon initialization
-        .size_normal = 0x57000,
-        .size_heap = 8 * 1024,
+        .size_normal = 0x29000,
+        .size_heap = 8192,
         // Currently stack size is hardcoded to 8K.
-        .size_stack = 8 * 1024
+        .size_stack = 4 * 4 * 1024
+    },
+    {
+        //.phys_base is filled upon initialization
+        .size_normal = 0x29000,
+        .size_heap = 8192,
+        // Currently stack size is hardcoded to 8K.
+        .size_stack = 3 * 4 * 1024
     },
 };
 
-int ja_spaces_n = 1;
+int ja_spaces_n = 2;

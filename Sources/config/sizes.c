@@ -1,3 +1,4 @@
 unsigned int pok_elf_sizes[] = {
-    140248,
+    157212,
+    155492,
 };

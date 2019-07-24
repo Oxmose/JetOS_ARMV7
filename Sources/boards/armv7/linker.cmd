@@ -52,8 +52,8 @@ MEMORY
     ELF_STR (R)  : origin=0x00200000 length=0x00200000
     STACKS  (RW) : origin=0x08000000 length=0x00004000
     HEAP    (RW) : origin=0x08004000 length=0x00010000
-    KRAM    (RW) : origin=0x08014000 length=0x00010000
-    URAM    (RW) : origin=0x08024000 length=0x0005C000
+    KRAM    (RW) : origin=0x08014000 length=0x00004000
+    URAM    (RW) : origin=0x08018000 length=0x00067FFF
 }
 
 /*----------------------------------------------------------------------------*/

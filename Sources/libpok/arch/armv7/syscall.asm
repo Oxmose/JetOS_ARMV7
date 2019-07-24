@@ -9,8 +9,9 @@
 	.def    lja_do_syscall
 	.asmfunc
 lja_do_syscall:
+	push {r1-r12, lr}
 	swi #42
-	bx lr
+	pop {r1-r12, pc}
 	.endasmfunc
 
 

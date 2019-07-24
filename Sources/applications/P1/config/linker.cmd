@@ -43,8 +43,9 @@
 
 MEMORY
 {
-    S_RAM   (RW) : origin=0x08024000 length=0x00001000 /* Don't forget to adapt! */
-    URAM    (RW) : origin=0x08025000 length=0x0005B000 /* Don't forget to adapt! */
+/* MUST BE ALIGNED ON 32K! */
+    S_RAM   (RW) : origin=0x08018000 length=0x00001000 /* Don't forget to adapt! */
+    URAM    (RW) : origin=0x08019000 length=0x0002F000 /* Don't forget to adapt! */
 }
 
 /*----------------------------------------------------------------------------*/
@@ -66,4 +67,4 @@ SECTIONS
 /*----------------------------------------------------------------------------*/
 /* Misc                                                                       */
 /*----------------------------------------------------------------------------*/
-kshd = 0x08024000; /* This should be placed at the begining of the partition. */
+kshd = 0x08018000; /* This should be placed at the begining of the partition. */
