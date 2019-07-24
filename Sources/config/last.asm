@@ -4,8 +4,6 @@
 ;      Author: Alexy
 ;
 
-
-
     .def printf_debug
     .asmfunc
 printf_debug:

@@ -41,14 +41,14 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
            --rom_model --be32 -o "JetOS.out" $(LINKER_FILE)
            
 .PHONY: all
-all: init dummy.a
+all: init config.a
 
 init:
 	mkdir -p $(OBJ_DIRS)
 	mkdir -p $(BIN_DIR)
 
 # kernel generation
-dummy.a: compile_asm compile_cc
+config.a: compile_asm compile_cc
 	@echo  "\e[32mCreating Archive file \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(LD) -r $(C_OBJS) $(A_OBJS) -o $(BIN_DIR)/$@
 	@echo "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
@@ -71,7 +71,7 @@ $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.asm
 	$(AS) $(ASFLAGS) $< --obj_directory="$(BUILD_DIR)" --output_file $@
 
 clean:
-	$(RM) -rf $(BIN_DIR)/dummy.a $(BUILD_DIR)
+	$(RM) -rf $(BIN_DIR)/config.a $(BUILD_DIR)
 
 	@echo "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
 	@echo

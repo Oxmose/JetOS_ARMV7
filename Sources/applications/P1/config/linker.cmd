@@ -43,8 +43,8 @@
 
 MEMORY
 {
-    S_RAM   (RW) : origin=0x08018000 length=0x00001000 /* Don't forget to adapt! */
-    URAM    (RW) : origin=0x08019000 length=0x00011000 /* Don't forget to adapt! */
+    S_RAM   (RW) : origin=0x08024000 length=0x00001000 /* Don't forget to adapt! */
+    URAM    (RW) : origin=0x08025000 length=0x0005B000 /* Don't forget to adapt! */
 }
 
 /*----------------------------------------------------------------------------*/
@@ -66,4 +66,4 @@ SECTIONS
 /*----------------------------------------------------------------------------*/
 /* Misc                                                                       */
 /*----------------------------------------------------------------------------*/
-kshd = 0x08018000; /* This should coincide with ja_space_shared_data() in the kernel. */
+kshd = 0x08024000; /* This should be placed at the begining of the partition. */

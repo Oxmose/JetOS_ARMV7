@@ -4,11 +4,11 @@ TI_ENV_WIN = C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
 BUILD_DIR  = build
 BIN_DIR    = .
 
-MODULES  = boards kernel libpok dummy
+MODULES  = boards kernel libpok config
 
 LINKER_FILE = ./boards/armv7/linker.cmd
 
-SRC_DIRS = dummy/
+SRC_DIRS = config/
 C_OBJS = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/build/*.obj))
 
 LD = $(TI_ENV)/bin/armlnk.exe
@@ -39,7 +39,7 @@ init:
 	$(MAKE) -C libpok
 	$(MAKE) -C applications
 	$(MAKE) -C boards
-	$(MAKE) -C dummy
+	$(MAKE) -C config
 	$(MAKE) -C kernel
 	
 
@@ -55,7 +55,7 @@ clean:
 	$(MAKE) clean -C libpok
 	$(MAKE) clean -C applications
 	$(MAKE) clean -C boards
-	$(MAKE) clean -C dummy
+	$(MAKE) clean -C config
 	$(MAKE) clean -C kernel
 	
 	$(RM) -rf *.map *.xml *.out
