@@ -18,7 +18,7 @@
 /* GCC requires this function even for freestanding environment. */
 void *memmove(void* dest, const void* src, size_t n)
 {
-    ptrdiff_t distance = dest - src;
+    ptrdiff_t distance = (unsigned int)dest - (unsigned int)src;
 
     if((distance >= 0) // dest comes after or at src
         || (distance + n < 0)) {// regions are not overlapped

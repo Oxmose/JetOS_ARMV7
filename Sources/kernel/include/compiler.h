@@ -9,6 +9,7 @@
  * Currently assume compiler to be gcc.
  */
 
+extern void __asm_barier__(void);
 #define barrier() (__asm_barier__())
 
 /*

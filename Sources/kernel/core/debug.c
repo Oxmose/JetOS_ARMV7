@@ -92,7 +92,7 @@ void pok_fatal (const char* message)
   POK_DEBUG_PRINT_CURRENT_STATE
   ja_inf_loop();
 
-  __builtin_unreachable();
+  while(1);
 }
 
 void hexdump (const void *addr, int len)

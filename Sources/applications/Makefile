@@ -1,4 +1,5 @@
-         
+TI_ENV = /c/Program\ Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
+
 ELFS_DIR = $(wildcard */.)
 
 
@@ -17,13 +18,13 @@ $(ELFS_DIR):
 
 # kernel generation
 partitions.bin:
-	@echo  "\e[32mCreating Size file"
+	@echo -e  "\e[32mCreating Size file"
 	./size_gen.sh
-	@echo "\e[1m\e[94m============ Size file finished ============\e[22m\e[39m"
-	@echo  "\e[32mCreating Archive file"
+	@echo -e "\e[1m\e[94m============ Size file finished ============\e[22m\e[39m"
+	@echo -e  "\e[32mCreating Archive file"
 	cat *.elf > partition.bin
-	@echo "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
+	@echo -e
 
 clean:
 	$(call cleandir,$@)

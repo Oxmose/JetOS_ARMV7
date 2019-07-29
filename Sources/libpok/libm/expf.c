@@ -44,9 +44,11 @@
 __weak_alias(expf, _expf)
 #endif
 
+#ifndef _IEEE_LIBM
 static const float
 o_threshold=  8.8721679688e+01,  /* 0x42b17180 */
 u_threshold= -1.0397208405e+02;  /* 0xc2cff1b5 */
+#endif
 
 float
 expf(float x)		/* wrapper expf */

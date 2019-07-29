@@ -2,13 +2,13 @@
 
 .text
 	.ref __TI_auto_init
-	.ref main
+	.ref __pok_partition_start
 
 	.def    _c_int00
 	.asmfunc
 _c_int00:
 	bl __TI_auto_init
-	bl main
+	bl __pok_partition_start
 
 loop:
 	bl loop

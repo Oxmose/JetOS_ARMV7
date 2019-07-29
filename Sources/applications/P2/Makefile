@@ -1,5 +1,5 @@
-TI_ENV = /mnt/c/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
-TI_ENV_WIN = C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
+TI_ENV = /c/Program\ Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
+TI_ENV_WIN = C:/Program Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
 
 SRC_DIR    = ./src
 INC_DIR    = ./includes
@@ -25,7 +25,7 @@ CC = $(TI_ENV)/bin/armcl.exe
 
 CFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff -c      \
          --opt_for_speed=0 -g --c99 --diag_warning=225 --diag_wrap=off \
-         --display_error_number --enum_type=packed --abi=eabi          \
+         --display_error_number --enum_type=packed --abi=eabi         \
          --include_path="../../libpok/include"                    
          
 ASFLAGS = $(CFLAGS)
@@ -35,7 +35,7 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
            --display_error_number --enum_type=packed --abi=eabi -z      \
            -m"Partition.map" -i"$(TI_ENV_WIN)/lib"        \
            --reread_libs --diag_wrap=off --display_error_number         \
-           --warn_sections --xml_link_info="Partition.xml"         \
+           --warn_sections --xml_link_info="Partition.xml"  -s     \
            --rom_model --be32 -l../../libpok/libpok.a -llibc.a
            
 .PHONY: all
@@ -47,33 +47,33 @@ init:
 
 # kernel generation
 P2.elf: compile_asm compile_cc
-	@echo  "\e[32mCreating Archive file \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32mCreating Archive file \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(CC) $(LDFLAGS) $(C_OBJS) $(A_OBJS) -o $(BIN_DIR)/$@ "$(LINKER_FILE)"
-	@echo "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
+	@echo -e
 
 compile_asm: $(A_OBJS)
-	@echo "\e[1m\e[94m============ Compiled ASM sources ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Compiled ASM sources ============\e[22m\e[39m"
+	@echo -e
 
 compile_cc: $(C_OBJS)
-	@echo "\e[1m\e[94m============ Compiled C sources ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Compiled C sources ============\e[22m\e[39m"
+	@echo -e
 
 $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.c
-	@echo  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(CC) $(CFLAGS) $< --obj_directory="$(BUILD_DIR)" --output_file $@
 
 $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.asm
-	@echo  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(AS) $(ASFLAGS) $< --obj_directory="$(BUILD_DIR)" --output_file $@
 
 clean:
 	$(RM) -rf $(BIN_DIR)/boards.a $(BUILD_DIR)
 	$(RM) -rf *.map *.xml *.elf *.bin
 
-	@echo "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
+	@echo -e
 
 
 # Check header files modifications

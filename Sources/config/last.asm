@@ -15,12 +15,6 @@ printf_debug:
     .asmfunc
 unreachable:
 	b unreachable
-
     .endasmfunc
-
-    .def __builtin_unreachable
-    .asmfunc
-__builtin_unreachable:
-	b __builtin_unreachable
 
     .endasmfunc

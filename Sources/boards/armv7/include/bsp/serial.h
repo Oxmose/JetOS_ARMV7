@@ -66,7 +66,7 @@ typedef volatile struct sci_base
 
 void init_serial(void);
 void serial_put_byte(char byte);
-void serial_write(char* string, uint32_t size);
+void serial_write(const char* string, uint32_t size);
 
 
 #endif /* SOURCES_BOARDS_TMS570LC43X_INCLUDE_SERIAL_H_ */

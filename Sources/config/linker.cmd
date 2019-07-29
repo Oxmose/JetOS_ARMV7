@@ -50,6 +50,7 @@ MEMORY
     FLASH   (RX) : origin=0x00000020 length=0x000FFFE0
     S_FLASH (RX) : origin=0x00100000 length=0x00100000
     ELF_STR (R)  : origin=0x00200000 length=0x00200000
+
     STACKS  (RW) : origin=0x08000000 length=0x00004000
     HEAP    (RW) : origin=0x08004000 length=0x00010000
     KRAM    (RW) : origin=0x08014000 length=0x00004000

@@ -87,7 +87,7 @@ void serial_put_byte(char byte)
     sciREG1->TD = byte;
 }
 
-void serial_write(char* string, uint32_t size)
+void serial_write(const char* string, uint32_t size)
 {
     uint32_t i;
     for(i = 0; i < size; ++i)

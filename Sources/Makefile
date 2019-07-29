@@ -1,5 +1,5 @@
-TI_ENV = /mnt/c/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
-TI_ENV_WIN = C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
+TI_ENV = /c/Program\ Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
+TI_ENV_WIN = C:/Program Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
 
 BUILD_DIR  = build
 BIN_DIR    = .
@@ -38,17 +38,17 @@ all: init pok.elf
 init:
 	$(MAKE) -C libpok
 	$(MAKE) -C applications
-	$(MAKE) -C boards
 	$(MAKE) -C config
+	$(MAKE) -C boards	
 	$(MAKE) -C kernel
 	
 
 # kernel generation
 pok.elf: 
-	@echo  "\e[32mCreating Creating ELF \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32mCreating Creating ELF \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(CC) $(LDFLAGS) $(C_OBJS) "$(LINKER_FILE)"
-	@echo "\e[1m\e[94m============ ELF finished ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ ELF finished ============\e[22m\e[39m"
+	@echo -e
 
 
 clean:

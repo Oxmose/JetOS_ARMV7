@@ -295,5 +295,6 @@ typedef enum SYS_CLOCK_SOURCE
 #define SYS_EXCEPTION        (*(volatile uint32_t *)0xFFFFFFE4)
 
 void ja_bsp_init(void);
+void bsp_soft_reset(void);
 
 #endif /* __BSP_H__ */

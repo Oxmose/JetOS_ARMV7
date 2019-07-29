@@ -14,6 +14,12 @@
 #include "../armv7/include/bsp/rti.h"
 #include "../armv7/include/bsp/serial.h"
 #include "../armv7/include/bsp/vim.h"
+
+#include <asp/entries.h>
+#include <core/debug.h>
+
+extern void __TI_auto_init(void);
+
 static void init_periph(void)
 {
     /** - Disable Peripherals before peripheral powerup*/

@@ -22,6 +22,7 @@
 
 #define USER_START_MPU_REGION 5
 
+#if 0
 static uint32_t mpu_get_size(uint32_t size)
 {
     if(size < 33)
@@ -139,6 +140,7 @@ static uint32_t get_alignement(uint32_t size)
             return    2147483648;
     return    0;
 }
+#endif
 
 void mpu_set_region(uint32_t region_id, uint32_t base_address,
                     uint32_t size, uint32_t type, uint32_t permissions)
@@ -284,7 +286,7 @@ void __user* ja_space_get_heap(jet_space_id space_id)
 {
    struct ja_armv7_space* space = &ja_spaces[space_id - 1];
 
-   return (void __user*)space->phys_base + (space->heap_end - space->size_heap);
+   return (void __user*)(space->phys_base + space->heap_end - space->size_heap);
 }
 
 static jet_space_id current_space_id = 0;

@@ -40,11 +40,6 @@ void* arinc_alloc(size_t size, size_t alignment)
 }
 
 /*
- * State of the arinc allocator.
- */
-typedef size_t arinc_allocator_state;
-
-/*
  * Return current state of the allocator.
  */
 arinc_allocator_state arinc_allocator_get_state(void)

@@ -126,12 +126,11 @@ static int weak_based_week(const struct tm* timeptr)
             week_first = monday_first;
             break;
         case 2: //Monday is at January, 3nd
-            if(timeptr->tm_yday < monday_first) {
+            if(timeptr->tm_yday < monday_first)
                 // Weak number depends whether previous year is leap or not.
                 return leap_year(timeptr->tm_year + tm0_year - 1) ? 52 : 51;
             week_first = monday_first;
             break;
-            }
         case 3: //Monday is at January, 4nd
             if(timeptr->tm_yday < monday_first) return 52;
             week_first = monday_first;
@@ -265,7 +264,6 @@ static int time_format(struct time_format_state* tfs,
                 case '\0':
                     // Missed actual specifier after '%'
                     return 0;
-                    break;
                 case 'E':
                     // Currently 'E' modifier is ignored
                     format_continue = 1;

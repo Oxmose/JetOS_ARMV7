@@ -54,6 +54,7 @@ static pok_bool_t arm_check_access(const void* __user addr, size_t size,
     }
 }
 
+#if 0
 static uint32_t user_space_shift(jet_space_id space_id)
 {
     assert(space_id != 0);
@@ -61,12 +62,13 @@ static uint32_t user_space_shift(jet_space_id space_id)
 
     return space->phys_base;
 }
+#endif
 
 void* __kuser ja_user_to_kernel_space(void* __user addr, size_t size,
     jet_space_id space_id)
 {
     if(arm_check_access(addr, size, space_id))
-       return (const void* __kuser)addr;
+       return (void* __kuser)addr;
     else
        return NULL;
 }

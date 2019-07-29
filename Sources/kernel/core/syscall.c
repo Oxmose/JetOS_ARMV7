@@ -48,7 +48,7 @@ static pok_ret_t unprotected_syscall(
    return ret;
 }
 
-#define SYSCALL_ENTRY(id) case id: return unprotected_syscall(pok_syscall_wrapper_ ## id, args); break;
+#define SYSCALL_ENTRY(id) case id: return unprotected_syscall(pok_syscall_wrapper_ ## id, args);
 
 /**
  * \file kernel/core/syscalls.c
@@ -65,13 +65,11 @@ static inline pok_ret_t pok_core_syscall_internal (const pok_syscall_id_t       
 #if defined (POK_NEEDS_CONSOLE) || defined (POK_NEEDS_DEBUG)
       case POK_SYSCALL_CONSWRITE:
          return jet_console_write_user((const char* __user)args->arg1, args->arg2);
-         break;
 #endif
 
 #if defined POK_NEEDS_GETTICK
       case POK_SYSCALL_CLOCK_GETTIME:
          return pok_clock_gettime ((clockid_t)args->arg1, (pok_time_t* __user)args->arg2);
-         break;
 #endif
       case POK_SYSCALL_TIME:
          return jet_time((time_t*)args->arg1);

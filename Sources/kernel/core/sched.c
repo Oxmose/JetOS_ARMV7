@@ -396,6 +396,8 @@ pok_time_t get_next_periodic_processing_start(void)
     }
 
     assert(FALSE && "Couldn't find next periodic processing window (configurator shouldn't have allowed that)");
+
+    return -1;
 }
 
 void pok_sched_on_time_changed(void)

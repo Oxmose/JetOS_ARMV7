@@ -1,5 +1,5 @@
-TI_ENV = /mnt/c/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
-TI_ENV_WIN = C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS
+TI_ENV = /c/Program\ Files/CodeComposer/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS
+
 SRC_DIR    = ./
 BUILD_DIR  = build
 INC_DIR    = armv7/includes
@@ -49,32 +49,32 @@ init:
 
 # kernel generation
 config.a: compile_asm compile_cc
-	@echo  "\e[32mCreating Archive file \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32mCreating Archive file \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(LD) -r $(C_OBJS) $(A_OBJS) -o $(BIN_DIR)/$@
-	@echo "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Archive finished ============\e[22m\e[39m"
+	@echo -e
 
 compile_asm: $(A_OBJS)
-	@echo "\e[1m\e[94m============ Compiled ASM sources ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Compiled ASM sources ============\e[22m\e[39m"
+	@echo -e
 
 compile_cc: $(C_OBJS)
-	@echo "\e[1m\e[94m============ Compiled C sources ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Compiled C sources ============\e[22m\e[39m"
+	@echo -e
 
 $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.c
-	@echo  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(CC) $(CFLAGS) $< --obj_directory="$(BUILD_DIR)" --output_file $@
 
 $(BUILD_DIR)/%.obj: $(SRC_DIR)/%.asm
-	@echo  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
+	@echo -e  "\e[32m$< \e[22m\e[39m-> \e[1m\e[94m$@\e[22m\e[39m"
 	$(AS) $(ASFLAGS) $< --obj_directory="$(BUILD_DIR)" --output_file $@
 
 clean:
 	$(RM) -rf $(BIN_DIR)/config.a $(BUILD_DIR)
 
-	@echo "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
-	@echo
+	@echo -e "\e[1m\e[94m============ Cleaning Object files and Binaries ============\e[22m\e[39m"
+	@echo -e
 
 
 # Check header files modifications
