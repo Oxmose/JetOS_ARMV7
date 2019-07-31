@@ -36,11 +36,11 @@ LDFLAGS = -mv7R5 --code_state=32 --float_support=VFPv3D16 -Ooff         \
 all: init pok.elf
 
 init:
-	$(MAKE) -C libpok
+	$(MAKE) -C libpok -j $(shell nproc)
 	$(MAKE) -C applications
-	$(MAKE) -C config
-	$(MAKE) -C boards	
-	$(MAKE) -C kernel
+	$(MAKE) -C config -j $(shell nproc)
+	$(MAKE) -C boards -j $(shell nproc) 
+	$(MAKE) -C kernel -j $(shell nproc)
 	
 
 # kernel generation
