@@ -56,6 +56,7 @@
 #include <core/time.h>
 #include <asp/entries.h>
 #include "../armv7/include/bsp/vim.h"
+#include <uapi/errno.h>
 
 /* Two parts of system time, each one can be upated atomically. */
 volatile uint32_t system_time_low;
@@ -122,31 +123,31 @@ void init_rti(void)
         *     - 0x00000000: Divide by 2^32
         *     - 0x00000001-0xFFFFFFFF: Divide by (CPUC1 + 1)
         */
-        rtiREG1->CNT[1U].CPUCx = 7U;
+        rtiREG1->CNT[1U].CPUCx = 0xFFFFFFFF;
 
         /** - Setup compare 0 value. This value is compared with selected free running counter. */
-        rtiREG1->CMP[0U].COMPx = 938U;
+        rtiREG1->CMP[0U].COMPx = 9375U;
 
         /** - Setup update compare 0 value. This value is added to the compare 0 value on each compare match. */
-        rtiREG1->CMP[0U].UDCPx = 938U;
+        rtiREG1->CMP[0U].UDCPx = 9375U;
 
         /** - Setup compare 1 value. This value is compared with selected free running counter. */
-        rtiREG1->CMP[1U].COMPx = 46875U;
+        rtiREG1->CMP[1U].COMPx = 0;
 
         /** - Setup update compare 1 value. This value is added to the compare 1 value on each compare match. */
-        rtiREG1->CMP[1U].UDCPx = 46875U;
+        rtiREG1->CMP[1U].UDCPx = 0;
 
         /** - Setup compare 2 value. This value is compared with selected free running counter. */
-        rtiREG1->CMP[2U].COMPx = 75000U;
+        rtiREG1->CMP[2U].COMPx = 0;
 
         /** - Setup update compare 2 value. This value is added to the compare 2 value on each compare match. */
-        rtiREG1->CMP[2U].UDCPx = 75000U;
+        rtiREG1->CMP[2U].UDCPx = 0;
 
         /** - Setup compare 3 value. This value is compared with selected free running counter. */
-        rtiREG1->CMP[3U].COMPx = 93750U;
+        rtiREG1->CMP[3U].COMPx = 0;
 
         /** - Setup update compare 3 value. This value is added to the compare 3 value on each compare match. */
-        rtiREG1->CMP[3U].UDCPx = 93750U;
+        rtiREG1->CMP[3U].UDCPx = 0;
 
         /** - Clear all pending interrupts */
         rtiREG1->INTFLAG = 0x0007000FU;
@@ -409,6 +410,7 @@ time_t ja_calendar_time(void)
 
 void ja_bsp_process_timer(void)
 {
+   rti_eoi();
    uint32_t system_time_low_new = system_time_low + (1000000000 / POK_TIMER_FREQUENCY);
    if(system_time_low_new < (1000000000 / POK_TIMER_FREQUENCY)) {
       // Overflow of low part.
@@ -418,6 +420,18 @@ void ja_bsp_process_timer(void)
    system_time_low = system_time_low_new;
 
    jet_on_tick();
+}
 
-   rti_eoi();
+pok_ret_t ja_get_hpet_ns(uint64_t *timer)
+{
+    uint64_t time_lo = rtiREG1->CNT[1U].FRCx;
+    uint64_t time_hi = rtiREG1->CNT[1U].UCx;
+
+    if(timer != NULL)
+    {
+        *timer = (uint64_t)((double)(time_hi | (time_lo<< 32)) * (double)RTI_COUNTER_1_RES_NS);
+        return POK_ERRNO_OK;
+    }
+
+    return POK_ERRNO_PARAM;
 }

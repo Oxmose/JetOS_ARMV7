@@ -58,4 +58,9 @@ struct tm *localtime_r(const time_t *timer, struct tm* timeptr);
 
 int clock_gettime(clockid_t clock_id, struct timespec* tp);
 
+#include "stdint.h"
+uint64_t get_time_in_ns(void);
+uint64_t get_time_in_us(void);
+uint64_t get_time_in_ms(void);
+
 #endif /* __LIBJET_TIME_H__ */

@@ -23,6 +23,7 @@
 #include <types.h>
 #include <libc.h>
 #include <ioports.h>
+#include <bsp/rti.h>
 
 #include <errno.h>
 #include <core/debug.h>
@@ -62,6 +63,9 @@ static inline pok_ret_t pok_core_syscall_internal (const pok_syscall_id_t       
 {
    switch (syscall_id)
    {
+       case POK_SYSCALL_HPET:
+           return ja_get_hpet_ns((uint64_t*)args->arg1);
+
 #if defined (POK_NEEDS_CONSOLE) || defined (POK_NEEDS_DEBUG)
       case POK_SYSCALL_CONSWRITE:
          return jet_console_write_user((const char* __user)args->arg1, args->arg2);

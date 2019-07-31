@@ -288,6 +288,7 @@ void ja_bsp_init(void)
     rtiEnableNotification(rtiREG1, rtiNOTIFICATION_COMPARE0);
     rtiSetPeriod(rtiREG1, rtiCOMPARE0, RTI_FREQUENCY / POK_TIMER_FREQUENCY);
     rtiStartCounter(rtiREG1, 0);
+    rtiStartCounter(rtiREG1, 1);
     serial_write("Timers Initialized\r\n", 20);
 }
 

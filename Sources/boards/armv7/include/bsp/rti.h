@@ -51,6 +51,7 @@
 #define __RTI_H__
 
 #include <stdint.h>
+#include <uapi/errno.h>
 
 #define RTI_FREQUENCY 9375000
 
@@ -317,6 +318,7 @@ typedef struct rti_config_reg
 #define RTI_UDCP2_CONFIGVALUE 75000U
 #define RTI_UDCP3_CONFIGVALUE 93750U
 
+#define RTI_COUNTER_1_RES_NS 13.33f
 
 /** 
  *  @defgroup RTI RTI
@@ -346,6 +348,7 @@ uint32_t rtiGetCurrentTick(rtiBASE_t *rtiREG,uint32_t compare);
 void rtiEnableNotification(rtiBASE_t *rtiREG,uint32_t notification);
 void rtiDisableNotification(rtiBASE_t *rtiREG,uint32_t notification);
 void ja_bsp_process_timer(void);
+pok_ret_t ja_get_hpet_ns(uint64_t *timer);
 
 /**@}*/
 #ifdef __cplusplus

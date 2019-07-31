@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include <arinc653/partition.h>
 #include <arinc653/types.h>
 #include <arinc653/time.h>
@@ -34,6 +35,10 @@ void* th_gen_routine(void)
 
     while(1)
     {
+        uint64_t timens = get_time_in_ns();
+        uint64_t timeus = get_time_in_us();
+        uint64_t timems = get_time_in_ms();
+
         printf("[%d] Generating data\n\r", pr_stat.IDENTIFIER);
         for(i = 0; i < DATA_ARRAY_SIZE; ++i)
         {
@@ -41,6 +46,12 @@ void* th_gen_routine(void)
         }
 
         PERIODIC_WAIT(&ret_type);
+
+        uint64_t n_timens = get_time_in_ns();
+        uint64_t n_timeus = get_time_in_us();
+        uint64_t n_timems = get_time_in_ms();
+
+        printf("[%d] Waited %llu ns %llu us %llu ms\r\n", pr_stat.IDENTIFIER, n_timens - timens, n_timeus - timeus, n_timems - timems);
         if(ret_type != NO_ERROR)
         {
             printf("[TH_GEN_P1] Cannot achieve periodic wait [%d]\n\r", ret_type);

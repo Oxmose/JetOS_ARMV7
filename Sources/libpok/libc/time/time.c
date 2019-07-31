@@ -27,3 +27,20 @@ time_t time(time_t *timer)
     
     return ret;
 }
+
+uint64_t get_time_in_ns(void)
+{
+    uint64_t ret;
+
+    pok_syscall1(POK_SYSCALL_HPET, (unsigned long)&ret);
+
+    return ret;
+}
+uint64_t get_time_in_us(void)
+{
+    return get_time_in_ns() / 1000;
+}
+uint64_t get_time_in_ms(void)
+{
+    return get_time_in_ns() / 1000000;
+}
