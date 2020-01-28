@@ -122,6 +122,20 @@ _init_cpu_arch:
 	mrc   p15, #0, r0, c1, c0,  #0
     orr   r0,  r0, #0x01000000
     mcr   p15, #0, r0, c1, c0,  #0
+; Enable Cache
+
+    mov r0, #0
+
+    mrc   p15, #0, R1, c1, c0, #0   ; Read System Control Register configuration data
+    orr   r1, r1, #0x1 <<12         ; instruction cache enable
+    orr   r1, r1, #0x1 <<2          ; data cache enable
+    dsb
+    mcr   p15, #0, r0, c15, c5, #0  ; Invalidate entire data cache
+    dsb                             ; delay is required, manually added
+    mcr   p15, #0, r0, c7, c5, #0   ; Invalidate entire instruction cache
+    dsb                             ; delay is required, manually added
+    mcr   p15, #0, r1, c1, c0, #0   ; enabled cache RAMs
+    isb
 
 	bx lr
 
